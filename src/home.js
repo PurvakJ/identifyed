@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Shield, 
-  CreditCard, 
-  Truck, 
+import {
+  Shield,
+  CreditCard,
+  Truck,
   Home,
-  Camera, 
-  FileText, 
-  Car, 
-  Box, 
-  Database, 
-  ShieldCheck, 
-  Phone, 
-  ChevronRight, 
-  CheckCircle, 
+  Camera,
+  FileText,
+  Car,
+  Box,
+  Database,
+  ShieldCheck,
+  Phone,
+  ChevronRight,
+  CheckCircle,
   XCircle,
   Menu,
   X,
@@ -255,369 +255,6 @@ const ScannerAvatar = ({ isScanning = true }) => {
 };
 
 // ============================================
-// CAROUSEL COMPONENT
-// ============================================
-// ============================================
-// UPGRADED CAROUSEL COMPONENT
-// ============================================
-const HeroCarousel = () => {
-  const slides = [
-    {
-      id: 1,
-      image: "https://i.pinimg.com/1200x/17/02/69/17026907c4d9970dedcf35c35c088792.jpg",
-      title: "Biometric Access Control",
-      subtitle: "Secure every entry point with facial recognition",
-      animation: {
-        enter: { 
-          type: 'fadeUp',
-          duration: 0.8,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        },
-        exit: {
-          type: 'slideDown',
-          duration: 0.7,
-          ease: [0.55, 0.085, 0.68, 0.53]
-        }
-      }
-    },
-    {
-      id: 2,
-      image: "https://i.pinimg.com/736x/6d/ae/59/6dae59d33bc7f38e89be33e27176093e.jpg",
-      title: "See who's at every door, gate, & dock",
-      subtitle: "Automated vehicle and pedestrian access",
-      animation: {
-        enter: { 
-          type: 'slideLeft',
-          duration: 0.8,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        },
-        exit: {
-          type: 'slideRight',
-          duration: 0.7,
-          ease: [0.55, 0.085, 0.68, 0.53]
-        }
-      }
-    },
-    {
-      id: 3,
-      image: "https://i.pinimg.com/1200x/18/2e/2b/182e2b6f8ce02b70706fc05cf53f238b.jpg",
-      title: "Real-Time Monitoring",
-      subtitle: "IDENTIFYED.CA delivers facial recognition, ID document reading, and license plate & container tracking on the hardware you already own. One platform. One price. No license games.",
-      animation: {
-        enter: { 
-          type: 'slideRight',
-          duration: 0.9,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        },
-        exit: {
-          type: 'slideLeft',
-          duration: 0.7,
-          ease: [0.55, 0.085, 0.68, 0.53]
-        }
-      }
-    },
-    {
-      id: 4,
-      image: "https://i.pinimg.com/736x/50/5c/51/505c51a3c67bccc5372a49d345104dba.jpg",
-      title: "Touchless Entry",
-      subtitle: "Contactless verification for modern buildings",
-      animation: {
-        enter: { 
-          type: 'zoomIn',
-          duration: 0.8,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        },
-        exit: {
-          type: 'zoomOut',
-          duration: 0.7,
-          ease: [0.55, 0.085, 0.68, 0.53]
-        }
-      }
-    },
-    {
-      id: 5,
-      image: "https://i.pinimg.com/1200x/af/44/a0/af44a060d5d6c243647b2f62f773e92b.jpg",
-      title: "Enterprise Security",
-      subtitle: "Scale biometrics across multiple locations",
-      animation: {
-        enter: { 
-          type: 'fadeIn',
-          duration: 0.7,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        },
-        exit: {
-          type: 'fadeOut',
-          duration: 0.6,
-          ease: [0.55, 0.085, 0.68, 0.53]
-        }
-      }
-    }
-  ];
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [, setDirection] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [slideKey, setSlideKey] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isAnimating) {
-        setDirection(1);
-        setCurrentIndex((prev) => (prev + 1) % slides.length);
-        setSlideKey(prev => prev + 1);
-        setIsAnimating(true);
-        setTimeout(() => setIsAnimating(false), 500);
-      }
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [slides.length, isAnimating]);
-
-  const goToSlide = (index) => {
-    if (isAnimating || index === currentIndex) return;
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
-    setSlideKey(prev => prev + 1);
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 900);
-  };
-
-  const getAnimationStyles = (slideIndex) => {
-    const isActive = slideIndex === currentIndex;
-    const isPrev = slideIndex === (currentIndex - 1 + slides.length) % slides.length;
-    const isNext = slideIndex === (currentIndex + 1) % slides.length;
-    const animation = slides[slideIndex].animation;
-
-    if (isActive) {
-      const enterTypes = {
-        'fadeUp': {
-          initial: { opacity: 0, y: 50, scale: 0.95 },
-          animate: { opacity: 1, y: 0, scale: 1 },
-          exit: { opacity: 0, y: -50, scale: 0.95 }
-        },
-        'slideLeft': {
-          initial: { opacity: 0, x: 80, scale: 0.92 },
-          animate: { opacity: 1, x: 0, scale: 1 },
-          exit: { opacity: 0, x: -80, scale: 0.92 }
-        },
-        'slideRight': {
-          initial: { opacity: 0, x: -80, scale: 0.92 },
-          animate: { opacity: 1, x: 0, scale: 1 },
-          exit: { opacity: 0, x: 80, scale: 0.92 }
-        },
-        'zoomIn': {
-          initial: { opacity: 0, scale: 0.7, rotate: 5 },
-          animate: { opacity: 1, scale: 1, rotate: 0 },
-          exit: { opacity: 0, scale: 1.3, rotate: -5 }
-        },
-        'fadeIn': {
-          initial: { opacity: 0, filter: 'blur(10px)' },
-          animate: { opacity: 1, filter: 'blur(0px)' },
-          exit: { opacity: 0, filter: 'blur(10px)' }
-        }
-      };
-
-      const enterType = animation?.enter?.type || 'fadeUp';
-      return enterTypes[enterType] || enterTypes['fadeUp'];
-    }
-
-    if (isPrev || isNext) {
-      const exitTypes = {
-        'slideDown': {
-          initial: { opacity: 0, y: -50, scale: 0.95 },
-          animate: { opacity: 0, y: -100, scale: 0.9 }
-        },
-        'slideRight': {
-          initial: { opacity: 0, x: 80, scale: 0.92 },
-          animate: { opacity: 0, x: 160, scale: 0.85 }
-        },
-        'slideLeft': {
-          initial: { opacity: 0, x: -80, scale: 0.92 },
-          animate: { opacity: 0, x: -160, scale: 0.85 }
-        },
-        'zoomOut': {
-          initial: { opacity: 0, scale: 0.7, rotate: 5 },
-          animate: { opacity: 0, scale: 0.4, rotate: 10 }
-        },
-        'fadeOut': {
-          initial: { opacity: 0, filter: 'blur(10px)' },
-          animate: { opacity: 0, filter: 'blur(20px)' }
-        }
-      };
-
-      const exitType = animation?.exit?.type || 'slideDown';
-      return {
-        initial: exitTypes[exitType]?.initial || { opacity: 0 },
-        animate: exitTypes[exitType]?.animate || { opacity: 0 }
-      };
-    }
-
-    return {
-      initial: { opacity: 0, scale: 0.8 },
-      animate: { opacity: 0, scale: 0.8 }
-    };
-  };
-
-  return (
-    <div className="hero-carousel">
-      <div className="carousel-container">
-        {slides.map((slide, index) => {
-          const isActive = index === currentIndex;
-          const styles = getAnimationStyles(index);
-          
-          return (
-            <motion.div
-              key={`${slide.id}-${slideKey}-${index}`}
-              className={`carousel-slide ${isActive ? 'active' : ''}`}
-              initial={styles.initial}
-              animate={isActive ? styles.animate : styles.initial}
-              exit={isActive ? styles.exit : undefined}
-              transition={{
-                duration: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94],
-                ...(isActive ? {
-                  type: 'spring',
-                  damping: 25,
-                  stiffness: 150
-                } : {})
-              }}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                zIndex: isActive ? 2 : 1,
-                pointerEvents: isActive ? 'auto' : 'none'
-              }}
-            >
-              <img 
-                src={slide.image} 
-                alt={slide.title} 
-                className="carousel-image"
-              />
-              <div className="carousel-overlay">
-                <motion.div 
-                  className="carousel-content"
-                  initial={isActive ? { opacity: 0, y: 30 } : { opacity: 0 }}
-                  animate={isActive ? { 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { delay: 0.3, duration: 0.6 }
-                  } : { opacity: 0 }}
-                >
-                  <motion.span 
-                    className="carousel-badge"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isActive ? { 
-                      opacity: 1, 
-                      scale: 1,
-                      transition: { delay: 0.4, duration: 0.5 }
-                    } : { opacity: 0, scale: 0.8 }}
-                  >
-                    <Shield className="icon-xs" />
-                    IDENTIFYED.CA
-                  </motion.span>
-                  <motion.h2 
-                    className="carousel-title"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isActive ? { 
-                      opacity: 1, 
-                      y: 0,
-                      transition: { delay: 0.5, duration: 0.6 }
-                    } : { opacity: 0, y: 30 }}
-                  >
-                    {slide.title}
-                  </motion.h2>
-                  <motion.p 
-                    className="carousel-subtitle"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isActive ? { 
-                      opacity: 1, 
-                      y: 0,
-                      transition: { delay: 0.6, duration: 0.5 }
-                    } : { opacity: 0, y: 20 }}
-                  >
-                    {slide.subtitle}
-                  </motion.p>
-                  <motion.div
-                    className="carousel-cta"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isActive ? { 
-                      opacity: 1, 
-                      y: 0,
-                      transition: { delay: 0.7, duration: 0.5 }
-                    } : { opacity: 0, y: 20 }}
-                  >
-                    <a href="#contact" className="btn btn-primary">
-                      Learn More <ChevronRight className="icon-sm" />
-                    </a>
-                  </motion.div>
-                </motion.div>
-              </div>
-              <div className="carousel-gradient-overlay" />
-            </motion.div>
-          );
-        })}
-      </div>
-
-      <div className="carousel-progress">
-        <div className="carousel-progress-bar">
-          <motion.div 
-            className="carousel-progress-fill"
-            initial={{ width: 0 }}
-            animate={{ width: '100%' }}
-            transition={{ duration: 5, ease: 'linear' }}
-            key={currentIndex}
-          />
-        </div>
-      </div>
-
-      <div className="carousel-controls">
-        <button 
-          className="carousel-btn prev"
-          onClick={() => goToSlide((currentIndex - 1 + slides.length) % slides.length)}
-          disabled={isAnimating}
-          aria-label="Previous slide"
-        >
-          <ChevronRight className="icon-md" style={{ transform: 'rotate(180deg)' }} />
-        </button>
-        <button 
-          className="carousel-btn next"
-          onClick={() => goToSlide((currentIndex + 1) % slides.length)}
-          disabled={isAnimating}
-          aria-label="Next slide"
-        >
-          <ChevronRight className="icon-md" />
-        </button>
-      </div>
-
-      <div className="carousel-dots">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
-            onClick={() => goToSlide(index)}
-            disabled={isAnimating}
-            aria-label={`Go to slide ${index + 1}`}
-          >
-            <motion.span 
-              className="carousel-dot-inner"
-              animate={{
-                scale: index === currentIndex ? 1 : 0.7,
-                opacity: index === currentIndex ? 1 : 0.4
-              }}
-              transition={{ duration: 0.3 }}
-            />
-          </button>
-        ))}
-      </div>
-
-      <div className="carousel-slide-number">
-        <span className="slide-number-current">{String(currentIndex + 1).padStart(2, '0')}</span>
-        <span className="slide-number-total">/ {String(slides.length).padStart(2, '0')}</span>
-      </div>
-    </div>
-  );
-};
-
-// ============================================
 // MAIN COMPONENT
 // ============================================
 const IdentifyedApp = () => {
@@ -626,6 +263,28 @@ const IdentifyedApp = () => {
   const [scanResult, setScanResult] = useState('MATCH · 99.7% · ID: K-2840');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', org: '', phone: '', industry: 'residential', message: '' });
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const carouselImages = [
+    'https://i.pinimg.com/1200x/17/02/69/17026907c4d9970dedcf35c35c088792.jpg',
+    'https://i.pinimg.com/1200x/18/2e/2b/182e2b6f8ce02b70706fc05cf53f238b.jpg',
+    'https://i.pinimg.com/1200x/af/44/a0/af44a060d5d6c243647b2f62f773e92b.jpg',
+    'https://i.pinimg.com/1200x/a1/03/68/a10368502679a225f3d17ac88ee3dafc.jpg',
+    'https://i.pinimg.com/736x/50/5c/51/505c51a3c67bccc5372a49d345104dba.jpg',
+  ];
+
+  const backgroundImages = {
+    hero: 'https://i.pinimg.com/736x/6d/ae/59/6dae59d33bc7f38e89be33e27176093e.jpg',
+    stats: 'https://i.pinimg.com/736x/32/18/bc/3218bc66915c6ecd7945984c2e554ed9.jpg',
+    features: 'https://i.pinimg.com/736x/1a/70/68/1a706858537f9208a4d4bff577be778c.jpg',
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
 
   const scrollToSection = (e, href) => {
     e.preventDefault();
@@ -788,7 +447,6 @@ const IdentifyedApp = () => {
     },
   ];
 
-  // Updated industry content with better formatting to match the images
   const industryContent = {
     residential: {
       eyebrow: '01 · APARTMENTS, CONDOMINIUMS, OFFICES',
@@ -925,105 +583,173 @@ const IdentifyedApp = () => {
 
   return (
     <div className="app">
-      {/* ===== NAVBAR ===== */}
-{/* ===== NAVBAR - FIXED ===== */}
-<header className="navbar" id="navbar">
-  <div className="container">
-    <div className="nav-inner">
-      <a href="/" className="logo">
-        <div className="logo-icon">
-          <img 
-            src="https://identifyed.ca/assets/identifica-isotipo.png" 
-            alt="IDENTIFYED.CA" 
-            className="logo-image"
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-        </div>
-        <span className="logo-text">
-          identi<span className="logo-accent">fyed</span>.ca
-        </span>
-      </a>
-
-      <nav className="nav-links">
-        {navLinks.map(link => (
-          <a 
-            key={link.href} 
-            href={link.href} 
-            className="nav-link"
-            onClick={(e) => scrollToSection(e, link.href)}
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-
-      <div className="nav-cta">
-        <a href="#contact" className="btn btn-ghost" onClick={(e) => scrollToSection(e, '#contact')}>
-          Talk to Sales
-        </a>
-        <a href="#contact" className="btn btn-primary" onClick={(e) => scrollToSection(e, '#contact')}>
-          Book a Demo <ChevronRight className="icon-sm" />
-        </a>
-      </div>
-
-      <button 
-        className="mobile-menu-btn"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        aria-label="Toggle menu"
-      >
-        {mobileMenuOpen ? <X className="icon-md" /> : <Menu className="icon-md" />}
-      </button>
-    </div>
-  </div>
-
-  {/* Mobile Menu - Outside container for full width */}
-  <AnimatePresence>
-    {mobileMenuOpen && (
-      <motion.div 
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: 'auto' }}
-        exit={{ opacity: 0, height: 0 }}
-        transition={{ duration: 0.3 }}
-        className="mobile-menu-wrapper"
-      >
-        <div className="container">
-          <div className="mobile-menu-inner">
-            {navLinks.map(link => (
-              <a 
-                key={link.href} 
-                href={link.href} 
-                className="mobile-nav-link"
-                onClick={(e) => scrollToSection(e, link.href)}
-              >
-                {link.label}
-              </a>
+      {/* ===== CAROUSEL SECTION ===== */}
+      <section className="carousel-section">
+        <div className="carousel-container">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide}
+              className="carousel-slide"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              transition={{ duration: 0.8 }}
+              style={{
+                backgroundImage: `url(${carouselImages[currentSlide]})`,
+              }}
+            >
+              <div className="carousel-overlay">
+                <div className="carousel-content">
+                  <motion.span 
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="carousel-eyebrow"
+                  >
+                    <Shield className="icon-xs" />
+                    Biometric Access Control
+                  </motion.span>
+                  <motion.h1 
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="carousel-title"
+                  >
+                    See who's at every door, gate, & dock —{' '}
+                    <span className="carousel-accent">In Real Time.</span>
+                  </motion.h1>
+                  <motion.p 
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                    className="carousel-desc"
+                  >
+                    IDENTIFYED.CA delivers facial recognition, ID document reading, and license plate &amp; container tracking on the hardware you already own. One platform. One price. No license games.
+                  </motion.p>
+                  <motion.div 
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                    className="carousel-actions"
+                  >
+                    <a href="#contact" className="btn btn-primary" onClick={(e) => scrollToSection(e, '#contact')}>
+                      Book a Demo <ChevronRight className="icon-sm" />
+                    </a>
+                    <a href="#industries" className="btn btn-ghost" onClick={(e) => scrollToSection(e, '#industries')}>
+                      See it by Industry
+                    </a>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+          
+          <div className="carousel-dots">
+            {carouselImages.map((_, index) => (
+              <button
+                key={index}
+                className={`carousel-dot ${index === currentSlide ? 'active' : ''}`}
+                onClick={() => setCurrentSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
             ))}
-            <div className="mobile-cta">
-              <a href="#contact" className="btn btn-ghost btn-block" onClick={(e) => scrollToSection(e, '#contact')}>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== NAVBAR ===== */}
+      <header className="navbar" id="navbar">
+        <div className="container">
+          <div className="nav-inner">
+            <a href="/" className="logo">
+              <div className="logo-icon">
+                <img 
+                  src="https://identifyed.ca/assets/identifica-isotipo.png" 
+                  alt="IDENTIFYED.CA" 
+                  className="logo-image"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+                <div/>
+              </div>
+              <span className="logo-text">
+                identi<span className="logo-accent">fyed</span>.ca
+              </span>
+            </a>
+
+            <nav className="nav-links">
+              {navLinks.map(link => (
+                <a 
+                  key={link.href} 
+                  href={link.href} 
+                  className="nav-link"
+                  onClick={(e) => scrollToSection(e, link.href)}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="nav-cta">
+              <a href="#contact" className="btn btn-ghost" onClick={(e) => scrollToSection(e, '#contact')}>
                 Talk to Sales
               </a>
-              <a href="#contact" className="btn btn-primary btn-block" onClick={(e) => scrollToSection(e, '#contact')}>
+              <a href="#contact" className="btn btn-primary" onClick={(e) => scrollToSection(e, '#contact')}>
                 Book a Demo <ChevronRight className="icon-sm" />
               </a>
             </div>
+
+            <button 
+              className="mobile-menu-btn"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="icon-md" /> : <Menu className="icon-md" />}
+            </button>
           </div>
+
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mobile-menu"
+              >
+                <div className="mobile-menu-inner">
+                  {navLinks.map(link => (
+                    <a 
+                      key={link.href} 
+                      href={link.href} 
+                      className="mobile-nav-link"
+                      onClick={(e) => scrollToSection(e, link.href)}
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                  <div className="mobile-cta">
+                    <a href="#contact" className="btn btn-ghost btn-block" onClick={(e) => scrollToSection(e, '#contact')}>
+                      Talk to Sales
+                    </a>
+                    <a href="#contact" className="btn btn-primary btn-block" onClick={(e) => scrollToSection(e, '#contact')}>
+                      Book a Demo <ChevronRight className="icon-sm" />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</header>
+      </header>
 
-      {/* ===== HERO CAROUSEL ===== */}
-      <section className="hero-carousel-section" id="hero">
-        <HeroCarousel />
-      </section>
-
+      {/* ===== HERO ===== */}
       <section className="hero" id="hero">
         <div className="hero-bg-pattern"></div>
         <div 
           className="hero-background-image"
+          style={{ backgroundImage: `url(${backgroundImages.hero})` }}
         ></div>
         <div className="container">
           <div className="hero-grid">
@@ -1115,6 +841,10 @@ const IdentifyedApp = () => {
 
       {/* ===== STATS BANNER ===== */}
       <div className="stats-banner">
+        <div 
+          className="stats-background-image"
+          style={{ backgroundImage: `url(${backgroundImages.stats})` }}
+        ></div>
         <div className="container">
           <div className="stats-grid">
             {statsData.map((stat, i) => (
@@ -1220,6 +950,10 @@ const IdentifyedApp = () => {
 
       {/* ===== CAPABILITIES ===== */}
       <section id="capabilities" className="section capabilities-section">
+        <div 
+          className="features-background-image"
+          style={{ backgroundImage: `url(${backgroundImages.features})` }}
+        ></div>
         <div className="container">
           <motion.div
             initial="hidden"
