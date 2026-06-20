@@ -189,16 +189,10 @@
      border-bottom: 2px solid #2A7A3A;
      transform: rotate(45deg) translateY(-2px);
    }
-   
-   .logo-text {
-     font-weight: 700;
-     font-size: 1.3rem;
-     letter-spacing: -0.02em;
-     font-family: 'Playfair Display', 'Rasputin', 'Inter', serif;
-   }
+  
    
    .logo-accent {
-     color: #2A7A3A;
+     color: #7A2A6B;
    }
    
    .nav-links {
@@ -2198,14 +2192,7 @@
      transform: rotate(45deg) translateY(-2px);
      position: absolute;
    }
-   
-   .logo-text {
-     font-weight: 700;
-     font-size: 1.2rem;
-     letter-spacing: -0.02em;
-     font-family: 'Playfair Display', 'Rasputin', 'Inter', serif;
-     white-space: nowrap;
-   }
+  
    
    @media (max-width: 480px) {
      .logo-text {
@@ -2218,7 +2205,7 @@
    }
    
    .logo-accent {
-     color: #2A7A3A;
+     color: #7A2A6B;
    }
    
    .nav-links {
@@ -2647,7 +2634,7 @@
      position: absolute;
      inset: 0;
      background: 
-       url('https://i.pinimg.com/736x/32/18/bc/3218bc66915c6ecd7945984c2e554ed9.jpg') center/cover no-repeat;
+       url('https://i.pinimg.com/736x/99/7c/41/997c412ecdc3f3c58cdd22933f111e02.jpg') center/cover no-repeat;
      opacity: 0.20;
      pointer-events: none;
      z-index: 0;
@@ -2799,7 +2786,6 @@
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: #fff;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -3275,16 +3261,9 @@
     object-fit: contain;
   }
   
-  .logo-text {
-    font-weight: 700;
-    font-size: 1.2rem;
-    letter-spacing: -0.02em;
-    font-family: 'Playfair Display', 'Rasputin', 'Inter', serif;
-    white-space: nowrap;
-  }
   
   .logo-accent {
-    color: #2A7A3A;
+    color: #7A2A6B;
   }
   
   .nav-links {
@@ -3479,10 +3458,8 @@
       font-size: 0.95rem;
     }
     
-    .logo-text {
-      font-size: 0.95rem;
-    }
-    
+
+
     .logo-icon {
       width: 30px;
       height: 30px;
@@ -3494,4 +3471,159 @@
     overflow: hidden;
   }
 
+  .logo-text {
+    font-weight: 1000;
+    font-size: 1.8rem; /* Increased from 2.2rem */
+
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-style: normal;
+}
+
+.logo-text1 {
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-style: normal;
+font-weight: 900;
+}
+
+/* ============================================
+   TRUST BAR - SCROLLABLE ON MOBILE
+   ============================================ */
+   .trust-bar {
+    background: rgba(0, 0, 0, 0.02);
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    padding: 16px 0;
+    overflow: hidden;
+  }
   
+  .trust-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px 32px;
+    font-weight: 500;
+    color: rgba(30, 26, 29, 0.55);
+    font-size: 0.85rem;
+    font-family: 'DM Sans', 'Inter', sans-serif;
+    color:black;
+    font-weight: 900;
+  }
+  
+  .trust-inner span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  
+  /* Mobile: horizontal scroll */
+  @media (max-width: 768px) {
+    .trust-bar {
+      padding: 12px 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    
+    .trust-bar::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+    
+    .trust-inner {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 24px;
+      padding: 0 16px;
+      width: max-content;
+      min-width: 100%;
+      font-size: 0.78rem;
+    }
+    
+    .trust-inner span {
+      flex-shrink: 0;
+    }
+  }
+  
+  /* Small screens: even tighter */
+  @media (max-width: 480px) {
+    .trust-inner {
+      gap: 16px;
+      font-size: 0.7rem;
+    }
+    
+    .trust-inner span {
+      padding: 4px 0;
+    }
+  }
+
+  /* Individual background images for each card */
+.pipeline-col:first-child {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://i.pinimg.com/1200x/54/cb/54/54cb5480dc04ec7bce10346cc24c4d49.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.pipeline-engine {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://i.pinimg.com/736x/30/21/68/3021683f348e2a7d359ea58a5277c3e9.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.pipeline-col:last-child {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://i.pinimg.com/736x/33/75/17/3375170b6d543c2704a7f920766ac5c9.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Individual background images for each card */
+.pipeline-col:first-child {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://i.pinimg.com/1200x/54/cb/54/54cb5480dc04ec7bce10346cc24c4d49.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+.pipeline-engine {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://i.pinimg.com/736x/30/21/68/3021683f348e2a7d359ea58a5277c3e9.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+.pipeline-col:last-child {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://i.pinimg.com/736x/33/75/17/3375170b6d543c2704a7f920766ac5c9.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+/* Ensure all nested elements inherit white text */
+.pipeline-col *,
+.pipeline-engine * {
+  color: #ffffff;
+}
+
+/* Override any specific elements that might have different colors */
+.pipeline-col .pipeline-label,
+.pipeline-engine .pipeline-label,
+.pipeline-col .pipeline-item,
+.pipeline-engine .engine-item,
+.pipeline-col .pipeline-icon,
+.pipeline-engine .pipeline-icon,
+.pipeline-col em,
+.pipeline-engine .engine-foot {
+  color: #ffffff;
+}
+
+/* Keep em text slightly lighter for hierarchy */
+.pipeline-col em {
+  opacity: 0.8;
+}
+
+.pipeline-label{
+  font-size: 1.3rem;
+  font-weight: 900;
+}

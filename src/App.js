@@ -23,7 +23,6 @@ import {
   Cpu,
   Globe,
   Building,
-  Lock,
   Clock,
   Users,
   Landmark,
@@ -43,216 +42,6 @@ const staggerContainer = {
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
 
-// ============================================
-// SCANNER AVATAR COMPONENT
-// ============================================
-const ScannerAvatar = ({ isScanning = true }) => {
-  const [, setScanProgress] = useState(0);
-  const [faceMatch, setFaceMatch] = useState(94);
-  
-  useEffect(() => {
-    if (!isScanning) return;
-    const interval = setInterval(() => {
-      setScanProgress(prev => (prev + 1) % 101);
-      setFaceMatch(94 + Math.floor(Math.random() * 6));
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [isScanning]);
-
-  return (
-    <div className="scanner-avatar-container">
-      <motion.div
-        className="scanner-glow-ring"
-        animate={{
-          scale: [1, 1.08, 1],
-          opacity: [0.3, 0.8, 0.3],
-          rotate: [0, 360]
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-      />
-
-      <motion.div
-        className="scanner-scan-overlay"
-        animate={{
-          backgroundPosition: ["0% 0%", "0% 100%"]
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-      />
-
-      <svg className="scanner-face-svg" viewBox="0 0 220 240">
-        <defs>
-          <radialGradient id="skinGradient" cx="50%" cy="40%">
-            <stop offset="0%" stopColor="#FFDCC5" />
-            <stop offset="60%" stopColor="#E8B89B" />
-            <stop offset="100%" stopColor="#C88A6B" />
-          </radialGradient>
-          <linearGradient id="hairGradient" x1="0%" y1="0%" x2="100%">
-            <stop offset="0%" stopColor="#1e1e1e" />
-            <stop offset="100%" stopColor="#4b3621" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-
-        <path
-          d="M55 70 Q70 10 110 18 Q150 8 165 70 L160 95 Q145 70 110 75 Q75 70 60 95 Z"
-          fill="url(#hairGradient)"
-        />
-
-        <motion.path
-          d="M60 80 Q65 40 110 35 Q155 40 160 80 L160 145 Q155 190 110 200 Q65 190 60 145 Z"
-          fill="url(#skinGradient)"
-          animate={{
-            scale: [1, 1.01, 1]
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity
-          }}
-        />
-
-        <ellipse cx="52" cy="115" rx="8" ry="15" fill="#D8A58B" />
-        <ellipse cx="168" cy="115" rx="8" ry="15" fill="#D8A58B" />
-
-        <g>
-          <ellipse cx="85" cy="105" rx="14" ry="9" fill="white" />
-          <ellipse cx="135" cy="105" rx="14" ry="9" fill="white" />
-          <circle cx="85" cy="105" r="5" fill="#5C3D2E" />
-          <circle cx="135" cy="105" r="5" fill="#5C3D2E" />
-          <circle cx="85" cy="105" r="2.5" fill="black" />
-          <circle cx="135" cy="105" r="2.5" fill="black" />
-          <circle cx="83" cy="103" r="1.5" fill="white" />
-          <circle cx="133" cy="103" r="1.5" fill="white" />
-          <motion.line
-            x1="72" y1="105"
-            x2="98" y2="105"
-            stroke="#111"
-            strokeWidth="1"
-            animate={{
-              opacity: [0, 0, 1, 0]
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity
-            }}
-          />
-        </g>
-
-        <path d="M70 90 Q85 82 100 90" stroke="#2A1B14" strokeWidth="3" fill="none"/>
-        <path d="M120 90 Q135 82 150 90" stroke="#2A1B14" strokeWidth="3" fill="none"/>
-
-        <path
-          d="M110 110 Q104 130 110 140 Q116 130 110 110"
-          stroke="#B5795C"
-          strokeWidth="2"
-          fill="none"
-        />
-
-        <motion.path
-          d="M90 160 Q110 172 130 160"
-          stroke="#B35D5D"
-          strokeWidth="3"
-          fill="none"
-          animate={{
-            d: [
-              "M90 160 Q110 172 130 160",
-              "M90 162 Q110 174 130 162",
-              "M90 160 Q110 172 130 160"
-            ]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity
-          }}
-        />
-
-        <path
-          d="M80 65 Q90 90 85 150"
-          stroke="white"
-          strokeWidth="2"
-          opacity="0.15"
-        />
-
-        {[70, 90, 110, 130, 150].map((y, i) => (
-          <motion.circle
-            key={i}
-            cx={110}
-            cy={y}
-            r="2"
-            fill="#00ff99"
-            animate={{
-              opacity: [0.2, 1, 0.2]
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              delay: i * 0.2
-            }}
-          />
-        ))}
-
-        <g stroke="#00ff99" opacity="0.15">
-          <line x1="110" y1="35" x2="110" y2="200" />
-          <line x1="70" y1="105" x2="150" y2="105" />
-          <line x1="75" y1="140" x2="145" y2="140" />
-        </g>
-
-        <text
-          x="110"
-          y="225"
-          textAnchor="middle"
-          fontSize="14"
-          fill="#00ff99"
-          fontWeight="bold"
-        >
-          {faceMatch}% VERIFIED
-        </text>
-      </svg>
-
-      <motion.div
-        className="scanner-scan-beam"
-        animate={{
-          top: ["10%", "85%", "10%"],
-          opacity: [0.4, 1, 0.4]
-        }}
-        transition={{
-          duration: 2.5,
-          repeat: Infinity
-        }}
-      />
-
-      <motion.div
-        className="scanner-status-badge"
-        animate={{
-          scale: [1, 1.05, 1]
-        }}
-        transition={{
-          duration: 1.2,
-          repeat: Infinity
-        }}
-      >
-        {isScanning ? (
-          <span>🔴 FACE ANALYZING...</span>
-        ) : (
-          <span>✅ READY</span>
-        )}
-      </motion.div>
-    </div>
-  );
-};
 
 // ============================================
 // CAROUSEL COMPONENT
@@ -300,9 +89,9 @@ const HeroCarousel = () => {
     },
     {
       id: 3,
-      image: "https://i.pinimg.com/1200x/18/2e/2b/182e2b6f8ce02b70706fc05cf53f238b.jpg",
+      image: "https://i.postimg.cc/G3DzTSr9/id.png",
       title: "Real-Time Monitoring",
-      subtitle: "IDENTIFYED.CA delivers facial recognition, ID document reading, and license plate & container tracking on the hardware you already own. One platform. One price. No license games.",
+      subtitle: "IDENTIFYED.CA delivers facial recognition, ID document reading, and license plate & container tracking on the hardware you already own. One platform. One price. Fully predictable.",
       animation: {
         enter: { 
           type: 'slideRight',
@@ -318,7 +107,7 @@ const HeroCarousel = () => {
     },
     {
       id: 4,
-      image: "https://i.pinimg.com/736x/50/5c/51/505c51a3c67bccc5372a49d345104dba.jpg",
+      image: "https://i.postimg.cc/3rG90b7d/numberplate.png",
       title: "Touchless Entry",
       subtitle: "Contactless verification for modern buildings",
       animation: {
@@ -336,7 +125,7 @@ const HeroCarousel = () => {
     },
     {
       id: 5,
-      image: "https://i.pinimg.com/1200x/af/44/a0/af44a060d5d6c243647b2f62f773e92b.jpg",
+      image: "https://i.pinimg.com/1200x/a4/27/72/a427721d8b37ab6169c632e2e8e87484.jpg",
       title: "Enterprise Security",
       subtitle: "Scale biometrics across multiple locations",
       animation: {
@@ -512,7 +301,9 @@ const HeroCarousel = () => {
                     } : { opacity: 0, scale: 0.8 }}
                   >
                     <Shield className="icon-xs" />
-                    IDENTIFYED.CA
+                    <span className="logo-text1">
+          identi<span className="logo-accent">fyed</span>.ca
+        </span>
                   </motion.span>
                   <motion.h2 
                     className="carousel-title"
@@ -623,7 +414,7 @@ const HeroCarousel = () => {
 const IdentifyedApp = () => {
   const [activeTab, setActiveTab] = useState('residential');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scanResult, setScanResult] = useState('MATCH · 99.7% · ID: K-2840');
+  const [, setScanResult] = useState('MATCH · 99.7% · ID: K-2840');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', org: '', phone: '', industry: 'residential', message: '' });
 
@@ -679,15 +470,23 @@ const IdentifyedApp = () => {
     { id: 'residential', icon: Home, label: 'Residential & Offices' },
     { id: 'logistics', icon: Truck, label: 'Logistics & Ports' },
     { id: 'finance', icon: Landmark, label: 'Finance & Notary' },
+    { id: 'manufacturing', icon: Cpu, label: 'Manufacturing' },
+    { id: 'oilandgas', icon: Zap, label: 'Oil & Gas' },
   ];
 
   const features = [
-    { icon: Camera, tag: 'FACE', title: 'Facial Recognition with Liveness', desc: '1:N matching at gates, 1:1 verification at counters. Mask, glasses, low light. Anti-spoof against printed photos and replays.', image: 'https://repository-images.githubusercontent.com/276222794/d5b1f586-2215-4868-8036-37b96093fdb7' },
+    { icon: Camera, tag: 'FACE', title: 'Facial Recognition with Liveness', desc: '1:N matching at gates, 1:1 verification at counters. Works with masks, glasses, and low light. Anti-spoof against printed photos and replays.', image: 'https://repository-images.githubusercontent.com/276222794/d5b1f586-2215-4868-8036-37b96093fdb7' },
     { icon: FileText, tag: 'PDF417', title: 'ID Barcode Reading', desc: 'Decodes PDF417 on every Canadian provincial licence. Extracts and validates fields against the visual zone for a second fraud check.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPr0LSDSPSdJeRcNsZ-ia2RD3sjJjBbOyqiQ&s' },
     { icon: Car, tag: 'ALPR', title: 'License Plate Reading', desc: 'North American and international plate OCR. Whitelists, blacklists, watchlists. Triggers gates, alarms, or just a log line.', image: 'https://media.licdn.com/dms/image/v2/C5612AQF4pv83twGY3g/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1563442246074?e=2147483647&v=beta&t=-t2HR-WVZZxhWENZjYu4KSL2pXlpJwRxHF1MVQ7mnwg' },
-    { icon: Box, tag: 'ISO 6346', title: 'Container Number OCR', desc: 'Reads container codes at the gate. Logs every box in and out — tied to the truck and the driver on the same record.', image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop' },
-    { icon: CreditCard, tag: 'NFC', title: 'Biometric Passport Reading', desc: 'Reads the NFC chip on all biometric passports. The most tamper-resistant identity check available at the gate.', image: 'https://www.smartfeigete.com/uploadfile/202110/25/e987c50ab28347b7c08c786fb70d06fb_medium.jpg' },
-    { icon: Database, tag: 'CENTRAL', title: 'Real-Time Central Console', desc: 'Every door, gate, turnstile and event on one screen. Filter by site, by person, by plate. Export forensic windows.', image: 'https://thumbs.dreamstime.com/b/displaying-central-circular-hud-intersecting-green-trend-line-virtual-console-blue-chart-dashboard-interface-realtime-443117970.jpg' },
+    { icon: Box, tag: 'ISO 6346', title: 'Container Number OCR', desc: 'Reads container codes at the gate. Logs every box in and out — tied to the truck and the driver on the same record.', image: 'https://i.pinimg.com/736x/7f/2d/f9/7f2df91f0a73a75e9538569bc2bb9a42.jpg' },
+    { icon: CreditCard, tag: 'NFC', title: 'Biometric Passport Reading', desc: 'Reads the NFC chip on all biometric passports. The most tamper-resistant identity check available at the gate.', image: 'https://i.pinimg.com/1200x/c3/15/62/c315623ab3985dd0a460294ca59269cc.jpg' },
+    {
+      icon: Database,
+      tag: 'CENTRAL',
+      title: 'Real-Time Central Console',
+      desc: 'Monitor every barrier, gate, turnstile, door, license plate, face match, and access event from a single dashboard. Filter by site, device, person, vehicle, or time range. Export forensic evidence instantly.',
+      image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop'
+    }
   ];
 
   const statsData = [
@@ -771,14 +570,6 @@ const IdentifyedApp = () => {
       url: 'https://www.tps.cl/our-terminal'
     },
     { 
-      name: 'CLARO', 
-      logo: null,
-      bg: 'linear-gradient(135deg, #e60000, #ff2a2a)',
-      color: '#fff',
-      description: 'Leading Spanish Telecommunications',
-      url: 'https://tienda.clarochile.cl/'
-    },
-    { 
       name: 'CHILQUINTA', 
       logo: 'https://a.storyblok.com/f/82872/x/ea4cc123a6/logo_chilquinta.svg',
       bg: 'linear-gradient(135deg, #f47920, #ff992a)',
@@ -788,7 +579,7 @@ const IdentifyedApp = () => {
     },
   ];
 
-  // Updated industry content with better formatting to match the images
+  // Updated industry content with 5 industries
   const industryContent = {
     residential: {
       eyebrow: '01 · APARTMENTS, CONDOMINIUMS, OFFICES',
@@ -798,7 +589,7 @@ const IdentifyedApp = () => {
       items: [
         { strong: 'Facial Recognition at the Door', span: 'Resident enrollment in under 10 seconds. Works with masks, glasses, and low light.' },
         { strong: 'License Plate Reading at the Gate', span: 'Car-park entry without remotes. Permitted plates pass through; others are flagged to the concierge.' },
-        { strong: 'Integrates with the Hardware You Have', span: 'We work with most IP cameras, intercoms, turnstiles, and electronic locks. Keep your existing infrastructure.' },
+        { strong: 'Integrates with the Hardware You Have', span: 'We work with most IP cameras, barriers, turnstiles, and electronic locks. Keep your existing infrastructure.' },
         { strong: 'One Central Log for the Whole Property', span: 'Building manager sees who entered which door, when, and through which credential — across every entry point.' },
       ],
       visual: (
@@ -849,7 +640,6 @@ const IdentifyedApp = () => {
           <div className="logistics-grid">
             <div className="gate gate-1">GATE 01</div>
             <div className="gate gate-2">GATE 02</div>
-
             <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
             <div className="truck"><span>🚛</span> TRK-481</div>
             <div className="container c-blue"><span>📦</span> MSCU 33</div>
@@ -920,12 +710,105 @@ const IdentifyedApp = () => {
           </div>
         </div>
       )
+    },
+    // NEW: Manufacturing Industry
+    manufacturing: {
+      eyebrow: '04 · MANUFACTURING, FACTORIES, PRODUCTION',
+      title: 'Secure the floor. Track the workforce.',
+      desc: 'Manufacturing facilities need fast, reliable access control for shift workers, contractors, and visitors. Biometrics eliminate badge sharing and ensure only authorized personnel enter restricted zones.',
+      image: 'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=600&h=400&fit=crop',
+      items: [
+        { strong: 'Shift-Based Access Control', span: 'Configure time-based access for day, night, and weekend shifts. Workers can only enter during their scheduled hours.' },
+        { strong: 'Contractor & Visitor Management', span: 'Pre-register contractors with ID verification. Set expiration dates and zone restrictions automatically.' },
+        { strong: 'Restricted Zone Enforcement', span: 'Limit access to hazardous areas, chemical storage, and sensitive production floors. Every entry is logged.' },
+        { strong: 'Hardware Integration', span: 'Works with turnstiles, door locks, and existing security cameras. No rip-and-replace required.' },
+        { strong: 'Attendance & Labor Tracking', span: 'Automated time and attendance records. Know who is on site, when they arrived, and where they went.' },
+      ],
+      visual: (
+        <div className="industry-visual manufacturing">
+          <div className="visual-header">
+            <span className="visual-eyebrow">FLOOR ACCESS · SHIFT A</span>
+            <span className="visual-time">06:00 - 14:00</span>
+          </div>
+          {[
+            { name: 'PRODUCTION · LINE 1', time: '06:02 · J. WILSON', active: true },
+            { name: 'PRODUCTION · LINE 2', time: '06:05 · M. CHEN', active: true },
+            { name: 'CHEMICAL · STORAGE', time: '06:01 · A. RODRIGUEZ', active: false },
+            { name: 'QUALITY · LAB', time: '05:58 · S. PATEL', active: true },
+            { name: 'MAINTENANCE · SHOP', time: '06:10 · K. THOMPSON', active: false },
+            { name: 'WAREHOUSE · BAY 1', time: '06:03 · L. JOHNSON', active: true },
+          ].map((floor, i) => (
+            <motion.div 
+              key={i}
+              className={`floor-item ${floor.active ? 'active' : ''}`}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <span className="floor-name">{floor.name}</span>
+              <span className="floor-time">{floor.time}</span>
+            </motion.div>
+          ))}
+          <div className="manufacturing-stats">
+            <div><strong>142</strong><span>On Site</span></div>
+            <div><strong>12</strong><span>Contractors</span></div>
+            <div><strong>0</strong><span>Alerts</span></div>
+          </div>
+        </div>
+      )
+    },
+    // NEW: Oil & Gas Industry
+    oilandgas: {
+      eyebrow: '05 · OIL & GAS, ENERGY, EXTRACTION',
+      title: 'Mission-critical access in high-risk environments.',
+      desc: 'Oil and gas facilities demand the highest security standards. Biometric access control ensures only trained, authorized personnel enter drilling sites, refineries, and pipeline operations. No credentials to lose in the field.',
+      image: 'https://images.unsplash.com/photo-1548611635-b6e7827d7c4a?w=600&h=400&fit=crop',
+      items: [
+        { strong: 'Remote Site Access Control', span: 'Works in harsh environments with limited connectivity. Facial recognition operates offline with cached templates.' },
+        { strong: 'Emergency Response Management', span: 'Track personnel locations during emergencies. Real-time headcounts for evacuation and rescue operations.' },
+        { strong: 'Certification & Training Verification', span: 'Link access to certifications (H2S, first aid, safety training). Expired certs automatically revoke access.' },
+        { strong: 'Vehicle & Equipment Tracking', span: 'Monitor all vehicles entering site perimeters. Flag unauthorized or unmaintained equipment.' },
+        { strong: 'Incident Forensics', span: 'Complete audit trail for every entry. Retrace personnel movements during incident investigations.' },
+        { strong: 'Harsh Environment Ready', span: 'IP-rated cameras and hardware options for dust, moisture, and extreme temperatures.' },
+      ],
+      visual: (
+        <div className="industry-visual oilandgas">
+          <div className="visual-header">
+            <span className="visual-eyebrow">SITE OPERATIONS · WELL 7</span>
+            <span className="visual-time">Active</span>
+          </div>
+          {[
+            { name: 'GATE · MAIN ENTRY', time: '06:30 · D. BROWN', active: true },
+            { name: 'DRILLING · PLATFORM', time: '06:28 · S. MITCHELL', active: true },
+            { name: 'REFINERY · EAST', time: '06:15 · R. GARCIA', active: false },
+            { name: 'PIPELINE · STATION 3', time: '06:20 · T. ANDERSON', active: true },
+            { name: 'STORAGE · TANK FARM', time: '06:10 · C. LEE', active: false },
+            { name: 'MAINTENANCE · YARD', time: '06:02 · P. O\'BRIEN', active: true },
+          ].map((floor, i) => (
+            <motion.div 
+              key={i}
+              className={`floor-item ${floor.active ? 'active' : ''}`}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <span className="floor-name">{floor.name}</span>
+              <span className="floor-time">{floor.time}</span>
+            </motion.div>
+          ))}
+          <div className="oilgas-stats">
+            <div><strong>87</strong><span>Personnel On Site</span></div>
+            <div><strong>6</strong><span>Vehicles Active</span></div>
+            <div><strong>100%</strong><span>Certified</span></div>
+            <div><strong>0</strong><span>Incidents</span></div>
+          </div>
+        </div>
+      )
     }
   };
 
   return (
     <div className="app">
-      {/* ===== NAVBAR ===== */}
 {/* ===== NAVBAR - FIXED ===== */}
 <header className="navbar" id="navbar">
   <div className="container">
@@ -960,7 +843,7 @@ const IdentifyedApp = () => {
       </nav>
 
       <div className="nav-cta">
-        <a href="#contact" className="btn btn-ghost" onClick={(e) => scrollToSection(e, '#contact')}>
+        <a href="tel:+18253330601" className="btn btn-ghost">
           Talk to Sales
         </a>
         <a href="#contact" className="btn btn-primary" onClick={(e) => scrollToSection(e, '#contact')}>
@@ -1001,7 +884,7 @@ const IdentifyedApp = () => {
               </a>
             ))}
             <div className="mobile-cta">
-              <a href="#contact" className="btn btn-ghost btn-block" onClick={(e) => scrollToSection(e, '#contact')}>
+              <a href="tel:+18253330601" className="btn btn-ghost btn-block">
                 Talk to Sales
               </a>
               <a href="#contact" className="btn btn-primary btn-block" onClick={(e) => scrollToSection(e, '#contact')}>
@@ -1021,97 +904,93 @@ const IdentifyedApp = () => {
       </section>
 
       <section className="hero" id="hero">
-        <div className="hero-bg-pattern"></div>
-        <div 
-          className="hero-background-image"
-        ></div>
-        <div className="container">
-          <div className="hero-grid">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-            >
-              <motion.div variants={fadeInUp}>
-                <span className="eyebrow">
-                  <Shield className="icon-xs" />
-                  Biometric Access Control · Made in Canada
-                </span>
-              </motion.div>
-              <motion.h1 variants={fadeInUp} className="hero-title">
-                See who's at every door, gate, & dock —{' '}
-                <span className="hero-accent">In Real Time.</span>
-              </motion.h1>
-              <motion.p variants={fadeInUp} className="hero-desc">
-                IDENTIFYED.CA delivers facial recognition, ID document reading, and license plate &amp; container tracking on the hardware you already own. One platform. One price. No license games.
-              </motion.p>
-              <motion.div variants={fadeInUp} className="hero-actions">
-                <a href="#contact" className="btn btn-primary" onClick={(e) => scrollToSection(e, '#contact')}>
-                  Book a Demo <ChevronRight className="icon-sm" />
-                </a>
-                <a href="#industries" className="btn btn-ghost" onClick={(e) => scrollToSection(e, '#industries')}>
-                  See it by Industry
-                </a>
-              </motion.div>
-              <motion.div variants={fadeInUp} className="hero-meta">
-                {statsData.slice(0, 3).map((stat, i) => (
-                  <div key={i}>
-                    <stat.icon className="hero-meta-icon" />
-                    <div>
-                      <strong>{stat.value}</strong>
-                      <span>{stat.label}</span>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
+  <div className="hero-bg-pattern"></div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="scanner-card"
-            >
-              <div className="scanner-inner">
-                <div className="scanner-corners">
-                  <div className="corner tl" />
-                  <div className="corner tr" />
-                  <div className="corner bl" />
-                  <div className="corner br" />
-                </div>
+  {/* Background Image */}
+  <div
+    className="hero-background-image"
+    style={{
+      backgroundImage:
+        "url('https://i.pinimg.com/1200x/9d/5f/98/9d5f981c9e7369aaeb2227071560fb64.jpg')",
+    }}
+  ></div>
 
-                <ScannerAvatar isScanning={true} />
+  <div className="container">
+    <div className="hero-grid">
+      {/* Left Content */}
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={staggerContainer}
+      >
+        <motion.div variants={fadeInUp}>
+          <span className="eyebrow">
+            <Shield className="icon-xs" />
+            Biometric Access Control · 100% Proprietary Software
+          </span>
+        </motion.div>
 
-                <motion.div 
-                  className="scanner-result"
-                  animate={{ opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  {scanResult}
-                </motion.div>
+        <motion.h1 variants={fadeInUp} className="hero-title">
+          See who's at every door, gate, & dock —{" "}
+          <span className="hero-accent">In Real Time.</span>
+        </motion.h1>
 
-                <div className="scanner-hud">
-                  <span className="hud-live">● LIVE · GATE 04</span>
-                  <span>{new Date().toLocaleTimeString()}</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+        <motion.p variants={fadeInUp} className="hero-desc">
+        <span className="logo-text1">
+          identi<span className="logo-accent">fyed</span>.ca
+        </span> delivers facial recognition, biometric and non-biometric ID documents: Passports, local IDS,
+          and license plate & container tracking on the hardware you already
+          own. One platform. One price. No license games.
+        </motion.p>
 
-      {/* ===== TRUST BAR ===== */}
-      <div className="trust-bar">
-        <div className="container">
-          <div className="trust-inner">
-            <span><Shield className="icon-xs" /> PIPEDA Aligned</span>
-            <span><FileText className="icon-xs" /> PDF417 / NFC / MRZ</span>
-            <span><Car className="icon-xs" /> Plate &amp; Container OCR</span>
-            <span><Database className="icon-xs" /> On-Prem or Cloud</span>
-            <span><Camera className="icon-xs" /> Hardware-Agnostic</span>
-          </div>
-        </div>
-      </div>
+        <motion.div variants={fadeInUp} className="hero-actions">
+          <a
+            href="#contact"
+            className="btn btn-primary"
+            onClick={(e) => scrollToSection(e, "#contact")}
+          >
+            Book a Demo <ChevronRight className="icon-sm" />
+          </a>
+
+          <a
+            href="#industries"
+            className="btn btn-ghost"
+            onClick={(e) => scrollToSection(e, "#industries")}
+          >
+            See it by Industry
+          </a>
+        </motion.div>
+      </motion.div>
+
+      {/* Right Side Image */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="hero-image-card"
+      >
+        <img
+          src="https://i.postimg.cc/qBcyTf4b/7b41ba6ef22c2a66cf86f2a3cacd5f2f-removebg-preview.png"
+          alt="Security Monitoring Dashboard"
+          className="hero-image"
+        />
+      </motion.div>
+    </div>
+  </div>
+</section>
+
+{/* ===== TRUST BAR ===== */}
+<div className="trust-bar">
+  <div className="container">
+    <div className="trust-inner">
+      <span><Shield className="icon-xs" /> PIPEDA &amp; Privacy Aligned</span>
+      <span><FileText className="icon-xs" /> ID Verification · PDF417 / NFC / MRZ</span>
+      <span><Car className="icon-xs" /> ALPR · Plate &amp; Container OCR</span>
+      <span><Database className="icon-xs" /> On-Premise or Cloud Deploy</span>
+      <span><Camera className="icon-xs" /> Any Camera · Hardware Agnostic</span>
+    </div>
+  </div>
+</div>
 
       {/* ===== STATS BANNER ===== */}
       <div className="stats-banner">
@@ -1145,7 +1024,7 @@ const IdentifyedApp = () => {
             className="section-header"
           >
             <motion.span variants={fadeInUp} className="eyebrow">
-              Built for Three Environments
+              Built for Five Environments
             </motion.span>
             <motion.h2 variants={fadeInUp} className="section-title">
               One platform. Many industries that look nothing alike.
@@ -1235,7 +1114,9 @@ const IdentifyedApp = () => {
               Everything the camera can read, in one engine.
             </motion.h2>
             <motion.p variants={fadeInUp} className="section-desc mx-auto">
-              IDENTIFYED isn't a face module bolted onto someone else's stack. Built by NEWSTACK, end to end.
+            <span className="logo-text1">
+          identi<span className="logo-accent">fyed</span>.ca
+        </span> isn't a face module bolted onto someone else's stack. Built by us.
             </motion.p>
           </motion.div>
 
@@ -1302,84 +1183,84 @@ const IdentifyedApp = () => {
         </div>
       </section>
 
-      {/* ===== HARDWARE PIPELINE ===== */}
-      <section className="section pipeline-section">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-            className="section-header text-center"
-          >
-            <motion.span variants={fadeInUp} className="eyebrow">
-              Hardware-Agnostic
-            </motion.span>
-            <motion.h2 variants={fadeInUp} className="section-title">
-              No specialized equipment. Use what you already own.
-            </motion.h2>
-            <motion.p variants={fadeInUp} className="section-desc mx-auto">
-              Most sites are already 80% of the way there. We layer software on top of the cameras, doors, and gates you have.
-            </motion.p>
-          </motion.div>
+{/* ===== HARDWARE PIPELINE ===== */}
+<section className="section pipeline-section">
+  <div className="container">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={staggerContainer}
+      className="section-header text-center"
+    >
+      <motion.span variants={fadeInUp} className="eyebrow">
+        Hardware-Agnostic
+      </motion.span>
+      <motion.h2 variants={fadeInUp} className="section-title">
+        No specialized equipment. Use what you already own.
+      </motion.h2>
+      <motion.p variants={fadeInUp} className="section-desc mx-auto">
+        Most sites are already 80% of the way there. We layer software on top of the cameras, doors, and gates you have.
+      </motion.p>
+    </motion.div>
 
-          <div className="pipeline-grid">
-            <motion.div 
-              className="pipeline-col"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-            >
-              <div className="pipeline-icon"><Camera className="icon-md" /></div>
-              <div className="pipeline-label">YOUR HARDWARE</div>
-              <div className="pipeline-items">
-                <div className="pipeline-item"><span className="dot green" /> USB / IP Webcam <em>Face</em></div>
-                <div className="pipeline-item"><span className="dot blue" /> Recording Camera <em>Plate</em></div>
-                <div className="pipeline-item"><span className="dot blue" /> Recording Camera <em>Container</em></div>
-                <div className="pipeline-item"><span className="dot purple" /> ID Scanner <em>PDF417 / NFC</em></div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              className="pipeline-engine"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="pipeline-icon"><Database className="icon-md" /></div>
-              <div className="pipeline-label">IDENTIFYED ENGINE</div>
-              <div className="engine-items">
-                {['FACE · 1:1 / 1:N', 'ALPR · Plate', 'ISO 6346 · Container', 'PDF417 · NFC · MRZ'].map((item, i) => (
-                  <div key={i} className="engine-item">{item}</div>
-                ))}
-                <div className="engine-foot">Central Console</div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              className="pipeline-col"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <div className="pipeline-icon"><Lock className="icon-md" /></div>
-              <div className="pipeline-label">YOUR CONTROLS</div>
-              <div className="pipeline-items">
-                {['Turnstiles', 'Doors / Strikes / Mag Locks', 'Vehicle Barriers · Gates', 'Intercoms · Elevators'].map((item, i) => (
-                  <div key={i} className="pipeline-item"><span className="dot orange" /> {item}</div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          <p className="pipeline-footnote">
-            Speaks <strong>WIEGAND</strong> · <strong>OSDP</strong> · <strong>RELAY</strong> · <strong>REST APIs</strong> · <strong>RTSP</strong> — works with what you have, talks to what you add.
-          </p>
+    <div className="pipeline-grid">
+      <motion.div 
+        className="pipeline-col"
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.1 }}
+      >
+        <div className="pipeline-icon">📷</div>
+        <div className="pipeline-label">YOUR HARDWARE</div>
+        <div className="pipeline-items">
+          <div className="pipeline-item"><span className="dot green">👤</span> USB / IP Webcam <em>Face</em></div>
+          <div className="pipeline-item"><span className="dot blue">🚗</span> Recording Camera <em>Plate</em></div>
+          <div className="pipeline-item"><span className="dot blue">📦</span> Recording Camera <em>Container</em></div>
+          <div className="pipeline-item"><span className="dot purple">🆔</span> ID Scanner <em>PDF417 / NFC</em></div>
         </div>
-      </section>
+      </motion.div>
+
+      <motion.div 
+        className="pipeline-engine"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+      >
+        <div className="pipeline-icon">⚡</div>
+        <div className="pipeline-label">IDENTIFYED ENGINE</div>
+        <div className="engine-items">
+          {['FACE · 1:1 / 1:N', 'ALPR · Plate', 'ISO 6346 · Container', 'PDF417 · NFC · MRZ'].map((item, i) => (
+            <div key={i} className="engine-item">{item}</div>
+          ))}
+          <div className="engine-foot">🎯 Central Console</div>
+        </div>
+      </motion.div>
+
+      <motion.div 
+        className="pipeline-col"
+        initial={{ opacity: 0, x: 30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+      >
+        <div className="pipeline-icon">🔓</div>
+        <div className="pipeline-label">YOUR CONTROLS</div>
+        <div className="pipeline-items">
+          {['Turnstiles', 'Doors / Strikes / Mag Locks', 'Vehicle Barriers · Gates'].map((item, i) => (
+            <div key={i} className="pipeline-item"><span className="dot orange">🚪</span> {item}</div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+
+    <p className="pipeline-footnote">
+      Speaks <strong>OSDP</strong> · <strong>RELAY</strong> · <strong>REST APIs</strong> · <strong>RTSP</strong> — works with what you have, talks to what you add.
+    </p>
+  </div>
+</section>
 
       {/* ===== WHY BIOMETRICS ===== */}
       <section id="why" className="section why-section">
@@ -1439,7 +1320,9 @@ const IdentifyedApp = () => {
             >
               <div className="compare-icon"><CheckCircle className="icon-lg text-green-500" /></div>
               <h3 className="compare-title">
-                IDENTIFYED.CA Biometrics
+                        <span className="logo-text1">
+          identi<span className="logo-accent">fyed</span>.ca
+        </span> Biometrics
                 <span className="compare-badge modern">Modern</span>
               </h3>
               <p className="compare-sub">The credential is the person.</p>
@@ -1580,7 +1463,6 @@ const IdentifyedApp = () => {
 
           <div className="client-awards">
             <span>🏅 Entrepreneurial Merit Medal 2025</span>
-            <span>🏆 Business Chamber of Commerce V Region, Chile</span>
           </div>
         </div>
       </section>
@@ -1606,12 +1488,12 @@ const IdentifyedApp = () => {
               </motion.p>
               <motion.ul variants={staggerContainer} className="privacy-list">
                 {[
-                  'Aligned with PIPEDA and provincial privacy frameworks (incl. PIPA AB / BC, Quebec Law 25)',
-                  'Data residency on Canadian infrastructure — or on your own premises',
-                  'Face templates stored as one-way embeddings, never raw photos',
-                  'Granular consent capture for every enrolled person',
-                  'Full audit trail; right-to-erasure tooling included',
-                ].map((item, i) => (
+  'Aligned with PIPEDA',
+  'Biometric verification occurs within the app and is never sent elsewhere',
+  'Data residency on Canadian infrastructure — or on your own premises',
+  'Face templates stored as one-way embeddings, never raw photos',
+  'Full audit trail; right-to-erasure tooling included'
+].map((item, i) => (
                   <motion.li key={i} variants={fadeInUp} className="privacy-item">
                     <CheckCircle className="icon-sm text-green" />
                     {item}
@@ -1633,11 +1515,13 @@ const IdentifyedApp = () => {
                   <div className="logo-mark" />
                 </div>
                 <span className="parent-name">
-                  identifica<span className="text-green">.AI</span>
+                  identifica<span className="text-green">.ca</span>
                 </span>
               </div>
               <p className="parent-desc">
-                IDENTIFYED.CA is the Canadian operation of IDENTIFICA.AI — a Chilean biometrics group with a decade of port, retail, and public-sector deployments across Latin America. We bring that engine north, with Canadian-resident infrastructure and support.
+                        <span className="logo-text1">
+          identi<span className="logo-accent">fyed</span>.ca
+        </span> is the Canadian operation of IDENTIFICA.AI — a Chilean biometrics group with a decade of port, retail, and public-sector deployments across Latin America. We bring that engine north, with Canadian-resident infrastructure and support.
               </p>
               <div className="parent-meta">
                 <div><strong>10+ YRS</strong>Biometrics R&amp;D</div>
@@ -1669,30 +1553,31 @@ const IdentifyedApp = () => {
               </motion.p>
 
               <motion.div variants={staggerContainer} className="contact-channels">
-                <motion.div variants={fadeInUp} className="contact-channel">
-                  <Phone className="channel-icon" />
-                  <div>
-                    <div className="channel-label">Sales</div>
-                    <div className="channel-name">Beata Kursa · Chief Commercial Officer</div>
-                    <div className="channel-links">
-                      <a href="tel:+18253330601">+1 (825) 333 0601</a>
-                      <a href="tel:+56942001770">+56 (9) 4200 1770</a>
-                      <a href="mailto:beata.kursa@identifyed.ca">beata.kursa@IDENTIFYED.CA</a>
-                    </div>
-                  </div>
-                </motion.div>
+              <motion.div variants={fadeInUp} className="contact-channel">
+  <Phone className="channel-icon" />
+  <div>
+    <div className="channel-label">Sales</div>
+    <div className="channel-name">Sales Team</div>
+    <div className="channel-links">
+      <a href="tel:+18253330601">+1 (825) 333 0601</a>
+      <a href="tel:+17808517424">+1 (780) 851 7424</a>
+      <a href="mailto:contact@identifyed.ca">contact@identifyed.ca</a>
+    </div>
+  </div>
+</motion.div>
 
-                <motion.div variants={fadeInUp} className="contact-channel">
-                  <ShieldCheck className="channel-icon" />
-                  <div>
-                    <div className="channel-label">Support · Live Deployments</div>
-                    <div className="channel-name">24 / 7 Incident Line</div>
-                    <div className="channel-links">
-                      <a href="tel:+17808517424">+1 780 851 7424</a>
-                      <a href="mailto:contact@identifyed.ca">contact@IDENTIFYED.CA</a>
-                    </div>
-                  </div>
-                </motion.div>
+<motion.div variants={fadeInUp} className="contact-channel">
+  <ShieldCheck className="channel-icon" />
+  <div>
+    <div className="channel-label">Support · Live Deployments</div>
+    <div className="channel-name">24 / 7 Incident Line</div>
+    <div className="channel-links">
+      <a href="tel:+18253330601">+1 (825) 333 0601</a>
+      <a href="tel:+17808517424">+1 (780) 851 7424</a>
+      <a href="mailto:support@identifyed.ca">support@identifyed.ca</a>
+    </div>
+  </div>
+</motion.div>
               </motion.div>
             </motion.div>
 
@@ -1762,6 +1647,8 @@ const IdentifyedApp = () => {
                       <option value="office">Office / Commercial</option>
                       <option value="logistics">Logistics / Port / Warehouse</option>
                       <option value="finance">Finance / Notary Public</option>
+                      <option value="manufacturing">Manufacturing</option>
+                      <option value="oilandgas">Oil & Gas</option>
                       <option value="other">Other</option>
                     </select>
                   </div>
@@ -1811,7 +1698,7 @@ const IdentifyedApp = () => {
   />
 </div>
                 <span className="logo-text">
-                  identi<span className="logo-accent">FYED</span>.CA
+                  identi<span className="logo-accent">fyed</span>.ca
                 </span>
               </div>
               <p className="footer-desc">Biometric access control, made in Canada. Serving over 20+ facilities.</p>
@@ -1823,6 +1710,8 @@ const IdentifyedApp = () => {
                 <a href="#residential" onClick={(e) => scrollToSection(e, '#industries')}>Residential</a>
                 <a href="#logistics" onClick={(e) => scrollToSection(e, '#industries')}>Logistics</a>
                 <a href="#finance" onClick={(e) => scrollToSection(e, '#industries')}>Finance &amp; Notary</a>
+                <a href="#manufacturing" onClick={(e) => scrollToSection(e, '#industries')}>Manufacturing</a>
+                <a href="#oilandgas" onClick={(e) => scrollToSection(e, '#industries')}>Oil &amp; Gas</a>
               </div>
             </div>
 
@@ -1846,7 +1735,9 @@ const IdentifyedApp = () => {
           </div>
 
           <div className="footer-bottom">
-            <span>© 2026 IDENTIFYED.CA · All Rights Reserved</span>
+            <span>© 2026         <span className="logo-text1">
+          identi<span className="logo-accent">fyed</span>.ca
+        </span> · All Rights Reserved</span>
             <div className="footer-powered">
               <span>Powered by</span>
               <span className="powered-name">NEWSTACK</span>
