@@ -906,14 +906,6 @@ const IdentifyedApp = () => {
       <section className="hero" id="hero">
   <div className="hero-bg-pattern"></div>
 
-  {/* Background Image */}
-  <div
-    className="hero-background-image"
-    style={{
-      backgroundImage:
-        "url('https://i.pinimg.com/1200x/9d/5f/98/9d5f981c9e7369aaeb2227071560fb64.jpg')",
-    }}
-  ></div>
 
   <div className="container">
     <div className="hero-grid">
@@ -962,18 +954,43 @@ const IdentifyedApp = () => {
         </motion.div>
       </motion.div>
 
-      {/* Right Side Image */}
+      {/* Right Side Image with Scanning Animation */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
         className="hero-image-card"
       >
-        <img
-          src="https://i.postimg.cc/qBcyTf4b/7b41ba6ef22c2a66cf86f2a3cacd5f2f-removebg-preview.png"
-          alt="Security Monitoring Dashboard"
-          className="hero-image"
-        />
+        <div className="scan-container">
+          <img
+            src="https://i.postimg.cc/qBcyTf4b/7b41ba6ef22c2a66cf86f2a3cacd5f2f-removebg-preview.png"
+            alt="Security Monitoring Dashboard"
+            className="hero-image"
+          />
+          
+          {/* Scanning Line */}
+          <div className="scan-line"></div>
+          
+          {/* Scanning Corners */}
+          <div className="scan-corner tl"></div>
+          <div className="scan-corner tr"></div>
+          <div className="scan-corner bl"></div>
+          <div className="scan-corner br"></div>
+          
+          {/* Scanning Grid Overlay */}
+          <div className="scan-grid"></div>
+          
+          {/* Pulsing Dot */}
+          <div className="scan-dot"></div>
+          
+          {/* Scanning Status Text */}
+          <div className="scan-status">
+            <span className="scanning-text">🔍 SCANNING</span>
+            <span className="scan-dots">
+              <span>.</span><span>.</span><span>.</span>
+            </span>
+          </div>
+        </div>
       </motion.div>
     </div>
   </div>
