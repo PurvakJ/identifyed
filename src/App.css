@@ -4358,3 +4358,7 @@ font-weight: 900;
     right: 4px;
   }
 }
+
+.dot {
+  margin-right: 8px;
+}

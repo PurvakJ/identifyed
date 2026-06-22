@@ -475,7 +475,7 @@ const IdentifyedApp = () => {
   ];
 
   const features = [
-    { icon: Camera, tag: 'FACE', title: 'Facial Recognition with Liveness', desc: '1:N matching at gates, 1:1 verification at counters. Works with masks, glasses, and low light. Anti-spoof against printed photos and replays.', image: 'https://repository-images.githubusercontent.com/276222794/d5b1f586-2215-4868-8036-37b96093fdb7' },
+    { icon: Camera, tag: 'FACE', title: 'Facial Recognition with Liveness', desc: '1:N matching at gates, 1:1 verification at counters. Anti-spoof and liveness detection against printed photos and replays.', image: 'https://repository-images.githubusercontent.com/276222794/d5b1f586-2215-4868-8036-37b96093fdb7' },
     { icon: FileText, tag: 'PDF417', title: 'ID Barcode Reading', desc: 'Decodes PDF417 on every Canadian provincial licence. Extracts and validates fields against the visual zone for a second fraud check.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPr0LSDSPSdJeRcNsZ-ia2RD3sjJjBbOyqiQ&s' },
     { icon: Car, tag: 'ALPR', title: 'License Plate Reading', desc: 'North American and international plate OCR. Whitelists, blacklists, watchlists. Triggers gates, alarms, or just a log line.', image: 'https://media.licdn.com/dms/image/v2/C5612AQF4pv83twGY3g/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1563442246074?e=2147483647&v=beta&t=-t2HR-WVZZxhWENZjYu4KSL2pXlpJwRxHF1MVQ7mnwg' },
     { icon: Box, tag: 'ISO 6346', title: 'Container Number OCR', desc: 'Reads container codes at the gate. Logs every box in and out — tied to the truck and the driver on the same record.', image: 'https://i.pinimg.com/736x/7f/2d/f9/7f2df91f0a73a75e9538569bc2bb9a42.jpg' },
@@ -750,9 +750,9 @@ const IdentifyedApp = () => {
             </motion.div>
           ))}
           <div className="manufacturing-stats">
-            <div><strong>142  </strong><span>On Site</span></div>
-            <div><strong>12  </strong><span>Contractors</span></div>
-            <div><strong>0  </strong><span>Alerts</span></div>
+          <div><strong style={{ marginRight: "8px" }}>142</strong><span>On Site</span></div>
+<div><strong style={{ marginRight: "8px" }}>12</strong><span>Contractors</span></div>
+<div><strong style={{ marginRight: "8px" }}>0</strong><span>Alerts</span></div>
           </div>
         </div>
       )
@@ -797,10 +797,10 @@ const IdentifyedApp = () => {
             </motion.div>
           ))}
           <div className="oilgas-stats">
-            <div><strong>87 </strong><span>Personnel On Site</span></div>
-            <div><strong>6 </strong><span>Vehicles Active</span></div>
-            <div><strong>100% </strong><span>Certified</span></div>
-            <div><strong>0 </strong><span>Incidents</span></div>
+          <div><strong>87&nbsp;&nbsp;</strong><span>Personnel On Site</span></div>
+<div><strong>6&nbsp;&nbsp;</strong><span>Vehicles Active</span></div>
+<div><strong>100%&nbsp;&nbsp;</strong><span>Certified</span></div>
+<div><strong>0&nbsp;&nbsp;</strong><span>Incidents</span></div>
           </div>
         </div>
       )
@@ -1232,10 +1232,10 @@ const IdentifyedApp = () => {
         <div className="pipeline-icon">📷</div>
         <div className="pipeline-label">YOUR HARDWARE</div>
         <div className="pipeline-items">
-          <div className="pipeline-item"><span className="dot green">👤</span> USB / IP Webcam <em>Face</em></div>
-          <div className="pipeline-item"><span className="dot blue">🚗</span> Recording Camera <em>Plate</em></div>
-          <div className="pipeline-item"><span className="dot blue">📦</span> Recording Camera <em>Container</em></div>
-          <div className="pipeline-item"><span className="dot purple">🆔</span> ID Scanner <em>PDF417 / NFC</em></div>
+          <div className="pipeline-item"><span className="dot green">👤 </span>  USB / IP Webcam <em>Face</em></div>
+          <div className="pipeline-item"><span className="dot blue">🚗 </span>  Recording Camera <em>Plate</em></div>
+          <div className="pipeline-item"><span className="dot blue">📦 </span>  Recording Camera <em>Container</em></div>
+          <div className="pipeline-item"><span className="dot purple">🆔 </span>  ID Scanner <em>PDF417 / NFC</em></div>
         </div>
       </motion.div>
 
@@ -1532,13 +1532,13 @@ const IdentifyedApp = () => {
                   <div className="logo-mark" />
                 </div>
                 <span className="parent-name">
-                  identifica<span className="text-green">.ca</span>
+                  identifica<span className="text-green">.ai</span>
                 </span>
               </div>
               <p className="parent-desc">
                         <span className="logo-text1">
           identi<span className="logo-accent">fyed</span>.ca
-        </span> is the Canadian operation of IDENTIFICA.AI — a Chilean biometrics group with a decade of port, retail, and public-sector deployments across Latin America. We bring that engine north, with Canadian-resident infrastructure and support.
+        </span> is the Canadian operation of identi<span className="logo-accent">fica</span>.ai — a Chilean biometrics group with a decade of port, retail, and public-sector deployments across Latin America. We bring that engine north, with Canadian-resident infrastructure and support.
               </p>
               <div className="parent-meta">
                 <div><strong>10+ YRS</strong>Biometrics R&amp;D</div>
@@ -1563,7 +1563,7 @@ const IdentifyedApp = () => {
                 Get in Touch
               </motion.span>
               <motion.h2 variants={fadeInUp} className="section-title">
-                Tell us about <span className="text-green">your doors.</span>
+                Tell us about <span className="text-green">your needs.</span>
               </motion.h2>
               <motion.p variants={fadeInUp} className="section-desc">
                 Sales walks you through pricing and a pilot scope. Support is staffed for live deployments. We'll match you to whichever team fits.
