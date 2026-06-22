@@ -302,7 +302,7 @@ const HeroCarousel = () => {
                   >
                     <Shield className="icon-xs" />
                     <span className="logo-text1">
-          identi<span className="logo-accent">fyed</span>.ca
+          identi<span className="logo-accent">fica</span>.ai
         </span>
                   </motion.span>
                   <motion.h2 
@@ -493,7 +493,7 @@ const IdentifyedApp = () => {
     { icon: Users, value: '8M+', label: 'People & IDs Verified' },
     { icon: Truck, value: '500K+', label: 'Vehicles Verified' },
     { icon: Building, value: '20+', label: 'Facilities Served' },
-    { icon: Clock, value: '<500ms', label: 'Face Match Latency' },
+    { icon: Clock, value: '<100ms', label: 'Face Match Latency' },
   ];
 
   const clients = [
@@ -750,9 +750,9 @@ const IdentifyedApp = () => {
             </motion.div>
           ))}
           <div className="manufacturing-stats">
-            <div><strong>142</strong><span>On Site</span></div>
-            <div><strong>12</strong><span>Contractors</span></div>
-            <div><strong>0</strong><span>Alerts</span></div>
+            <div><strong>142  </strong><span>On Site</span></div>
+            <div><strong>12  </strong><span>Contractors</span></div>
+            <div><strong>0  </strong><span>Alerts</span></div>
           </div>
         </div>
       )
@@ -797,10 +797,10 @@ const IdentifyedApp = () => {
             </motion.div>
           ))}
           <div className="oilgas-stats">
-            <div><strong>87</strong><span>Personnel On Site</span></div>
-            <div><strong>6</strong><span>Vehicles Active</span></div>
-            <div><strong>100%</strong><span>Certified</span></div>
-            <div><strong>0</strong><span>Incidents</span></div>
+            <div><strong>87 </strong><span>Personnel On Site</span></div>
+            <div><strong>6 </strong><span>Vehicles Active</span></div>
+            <div><strong>100% </strong><span>Certified</span></div>
+            <div><strong>0 </strong><span>Incidents</span></div>
           </div>
         </div>
       )
@@ -1178,7 +1178,7 @@ const IdentifyedApp = () => {
             <div className="cap-stat">
               <Zap className="cap-stat-icon" />
               <div>
-                <strong>&lt;500ms</strong>
+                <strong>&lt;100ms</strong>
                 <span>Face Match Latency</span>
               </div>
             </div>
