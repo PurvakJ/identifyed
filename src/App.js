@@ -91,7 +91,7 @@ const HeroCarousel = () => {
       id: 3,
       image: "https://i.postimg.cc/G3DzTSr9/id.png",
       title: "Real-Time Monitoring",
-      subtitle: "IDENTIFYED.CA delivers facial recognition, ID document reading, and license plate & container tracking on the hardware you already own. One platform. One price. Fully predictable.",
+      subtitle: "identifyed.ca delivers facial recognition, ID document reading, and license plate & container tracking on the hardware you already own. One platform. One price. Fully predictable.",
       animation: {
         enter: { 
           type: 'slideRight',
@@ -157,7 +157,7 @@ const HeroCarousel = () => {
         setIsAnimating(true);
         setTimeout(() => setIsAnimating(false), 500);
       }
-    }, 3000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [slides.length, isAnimating]);
 
@@ -476,7 +476,7 @@ const IdentifyedApp = () => {
 
   const features = [
     { icon: Camera, tag: 'FACE', title: 'Facial Recognition with Liveness', desc: '1:N matching at gates, 1:1 verification at counters. Anti-spoof and liveness detection against printed photos and replays.', image: 'https://repository-images.githubusercontent.com/276222794/d5b1f586-2215-4868-8036-37b96093fdb7' },
-    { icon: FileText, tag: 'PDF417', title: 'ID Barcode Reading', desc: 'Decodes PDF417 on every Canadian provincial licence. Extracts and validates fields against the visual zone for a second fraud check.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPr0LSDSPSdJeRcNsZ-ia2RD3sjJjBbOyqiQ&s' },
+    { icon: FileText, tag: 'PDF417', title: 'ID Barcode Reading', desc: 'Decodes PDF417 on every Canadian provincial licence. Extracts and validates fields against the visual zone for a second fraud check.', image: 'https://res.cloudinary.com/dm9gg8yss/image/upload/v1782149695/d7f5630c-0465-4178-97cf-4a01aae82e5d_da2xkl.jpg' },
     { icon: Car, tag: 'ALPR', title: 'License Plate Reading', desc: 'North American and international plate OCR. Whitelists, blacklists, watchlists. Triggers gates, alarms, or just a log line.', image: 'https://media.licdn.com/dms/image/v2/C5612AQF4pv83twGY3g/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1563442246074?e=2147483647&v=beta&t=-t2HR-WVZZxhWENZjYu4KSL2pXlpJwRxHF1MVQ7mnwg' },
     { icon: Box, tag: 'ISO 6346', title: 'Container Number OCR', desc: 'Reads container codes at the gate. Logs every box in and out — tied to the truck and the driver on the same record.', image: 'https://i.pinimg.com/736x/7f/2d/f9/7f2df91f0a73a75e9538569bc2bb9a42.jpg' },
     { icon: CreditCard, tag: 'NFC', title: 'Biometric Passport Reading', desc: 'Reads the NFC chip on all biometric passports. The most tamper-resistant identity check available at the gate.', image: 'https://i.pinimg.com/1200x/c3/15/62/c315623ab3985dd0a460294ca59269cc.jpg' },
@@ -493,7 +493,7 @@ const IdentifyedApp = () => {
     { icon: Users, value: '8M+', label: 'People & IDs Verified' },
     { icon: Truck, value: '500K+', label: 'Vehicles Verified' },
     { icon: Building, value: '20+', label: 'Facilities Served' },
-    { icon: Clock, value: '<100ms', label: 'Face Match Latency' },
+    { icon: Clock, value: '>100ms', label: 'On-Device, Real-Time Verification' },
   ];
 
   const clients = [
@@ -963,7 +963,7 @@ const IdentifyedApp = () => {
       >
         <div className="scan-container">
           <img
-            src="https://i.postimg.cc/qBcyTf4b/7b41ba6ef22c2a66cf86f2a3cacd5f2f-removebg-preview.png"
+            src="https://res.cloudinary.com/dm9gg8yss/image/upload/v1782150950/f1934079-77af-4d72-8ee4-ff9ae84e8e33_bgw4vz.png"
             alt="Security Monitoring Dashboard"
             className="hero-image"
           />
@@ -1178,8 +1178,8 @@ const IdentifyedApp = () => {
             <div className="cap-stat">
               <Zap className="cap-stat-icon" />
               <div>
-                <strong>&lt;100ms</strong>
-                <span>Face Match Latency</span>
+              <strong>&gt;100ms</strong>
+                <span>On-Device, Real-Time Verification</span>
               </div>
             </div>
             <div className="cap-stat">
