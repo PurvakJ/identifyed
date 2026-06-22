@@ -26,6 +26,12 @@ import {
   Clock,
   Users,
   Landmark,
+  ScanSearch,
+  Radar,
+  Container,  
+  DoorOpen,
+  Fence,
+
 } from 'lucide-react';
 import './App.css';
 
@@ -1229,13 +1235,30 @@ const IdentifyedApp = () => {
         viewport={{ once: true }}
         transition={{ delay: 0.1 }}
       >
-        <div className="pipeline-icon">📷</div>
-        <div className="pipeline-label">YOUR HARDWARE</div>
+<div className="pipeline-icon hardware-icon">
+  <Camera size={34} />
+</div>
+<div className="pipeline-label">YOUR HARDWARE</div>
         <div className="pipeline-items">
-          <div className="pipeline-item"><span className="dot green">👤 </span>  USB / IP Webcam <em>Face</em></div>
-          <div className="pipeline-item"><span className="dot blue">🚗 </span>  Recording Camera <em>Plate</em></div>
-          <div className="pipeline-item"><span className="dot blue">📦 </span>  Recording Camera <em>Container</em></div>
-          <div className="pipeline-item"><span className="dot purple">🆔 </span>  ID Scanner <em>PDF417 / NFC</em></div>
+        <div className="pipeline-item">
+  <ScanSearch className="pipeline-icon green" />
+  USB / IP Webcam <em>Face Recognition</em>
+</div>
+
+<div className="pipeline-item">
+  <Radar className="pipeline-icon blue" />
+  Recording Camera <em>License Plate Recognition</em>
+</div>
+
+<div className="pipeline-item">
+  <Container className="pipeline-icon cyan" />
+  Recording Camera <em>Container Tracking</em>
+</div>
+
+<div className="pipeline-item">
+  <ShieldCheck className="pipeline-icon purple" />
+  ID Scanner <em>PDF417 / NFC Verification</em>
+</div>
         </div>
       </motion.div>
 
@@ -1246,8 +1269,10 @@ const IdentifyedApp = () => {
         viewport={{ once: true }}
         transition={{ delay: 0.2 }}
       >
-        <div className="pipeline-icon">⚡</div>
-        <div className="pipeline-label">IDENTIFYED ENGINE</div>
+<div className="pipeline-icon engine-icon">
+  <Cpu size={34} />
+</div>
+<div className="pipeline-label">IDENTIFYED ENGINE</div>
         <div className="engine-items">
           {['FACE · 1:1 / 1:N', 'ALPR · Plate', 'ISO 6346 · Container', 'PDF417 · NFC · MRZ'].map((item, i) => (
             <div key={i} className="engine-item">{item}</div>
@@ -1256,21 +1281,35 @@ const IdentifyedApp = () => {
         </div>
       </motion.div>
 
-      <motion.div 
-        className="pipeline-col"
-        initial={{ opacity: 0, x: 30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-      >
-        <div className="pipeline-icon">🔓</div>
-        <div className="pipeline-label">YOUR CONTROLS</div>
-        <div className="pipeline-items">
-          {['Turnstiles', 'Doors / Strikes / Mag Locks', 'Vehicle Barriers · Gates'].map((item, i) => (
-            <div key={i} className="pipeline-item"><span className="dot orange">🚪</span> {item}</div>
-          ))}
-        </div>
-      </motion.div>
+      <motion.div
+  className="pipeline-col"
+  initial={{ opacity: 0, x: 30 }}
+  whileInView={{ opacity: 1, x: 0 }}
+  viewport={{ once: true }}
+  transition={{ delay: 0.3 }}
+>
+<div className="pipeline-icon control-icon-main">
+  <ShieldCheck size={34} />
+</div>
+<div className="pipeline-label">YOUR CONTROLS</div>
+
+  <div className="pipeline-items">
+    <div className="pipeline-item">
+      <DoorOpen className="control-icon orange" />
+      Turnstiles
+    </div>
+
+    <div className="pipeline-item">
+      <ShieldCheck className="control-icon orange" />
+      Doors / Strikes / Mag Locks
+    </div>
+
+    <div className="pipeline-item">
+      <Fence className="control-icon orange" />
+      Vehicle Barriers · Gates
+    </div>
+  </div>
+</motion.div>
     </div>
 
     <p className="pipeline-footnote">
@@ -1532,7 +1571,7 @@ const IdentifyedApp = () => {
                   <div className="logo-mark" />
                 </div>
                 <span className="parent-name">
-                  identifica<span className="text-green">.ai</span>
+                  identifyed<span className="text-green">.ca</span>
                 </span>
               </div>
               <p className="parent-desc">

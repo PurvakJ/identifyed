@@ -4692,3 +4692,16 @@ font-weight: 900;
   0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
 }
+
+.pipeline-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pipeline-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
