@@ -938,7 +938,7 @@ const IdentifyedApp = () => {
           identi<span className="logo-accent">fyed</span>.ca
         </span> delivers facial recognition, biometric and non-biometric ID documents: Passports, local IDS,
           and license plate & container tracking on the hardware you already
-          own. One platform. One price. No license games.
+          own. One platform. One price. Fully predictable.
         </motion.p>
 
         <motion.div variants={fadeInUp} className="hero-actions">
