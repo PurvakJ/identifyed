@@ -1577,7 +1577,6 @@ const IdentifyedApp = () => {
     <div className="channel-name">Sales Team</div>
     <div className="channel-links">
       <a href="tel:+18253330601">+1 (825) 333 0601</a>
-      <a href="tel:+17808517424">+1 (780) 851 7424</a>
       <a href="mailto:contact@identifyed.ca">contact@identifyed.ca</a>
     </div>
   </div>
@@ -1589,7 +1588,6 @@ const IdentifyedApp = () => {
     <div className="channel-label">Support · Live Deployments</div>
     <div className="channel-name">24 / 7 Incident Line</div>
     <div className="channel-links">
-      <a href="tel:+18253330601">+1 (825) 333 0601</a>
       <a href="tel:+17808517424">+1 (780) 851 7424</a>
       <a href="mailto:support@identifyed.ca">support@identifyed.ca</a>
     </div>
