@@ -1716,7 +1716,7 @@ const IdentifyedApp = () => {
                   identi<span className="logo-accent">fyed</span>.ca
                 </span>
               </div>
-              <p className="footer-desc">Biometric access control, made in Canada. Serving over 20+ facilities.</p>
+              <p className="footer-desc">Biometric access control. Serving over 20+ facilities.</p>
             </div>
 
             <div>
