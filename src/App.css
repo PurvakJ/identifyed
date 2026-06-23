@@ -2168,8 +2168,6 @@
    .logo-icon {
      width: 36px;
      height: 36px;
-     border: 2px solid #7A2A6B;
-     border-radius: 50%;
      display: flex;
      align-items: center;
      justify-content: center;
@@ -3245,8 +3243,6 @@
   .logo-icon {
     width: 36px;
     height: 36px;
-    border: 2px solid #7A2A6B;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;

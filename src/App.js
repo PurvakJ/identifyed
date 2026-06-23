@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Shield, 
@@ -33,6 +33,7 @@ import {
   Fence,
   LayoutDashboard,
 } from 'lucide-react';
+import emailjs from "@emailjs/browser";
 import './App.css';
 
 // ============================================
@@ -48,12 +49,8 @@ const staggerContainer = {
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
 
-
 // ============================================
 // CAROUSEL COMPONENT
-// ============================================
-// ============================================
-// UPGRADED CAROUSEL COMPONENT
 // ============================================
 const HeroCarousel = () => {
   const slides = [
@@ -306,10 +303,15 @@ const HeroCarousel = () => {
                       transition: { delay: 0.4, duration: 0.5 }
                     } : { opacity: 0, scale: 0.8 }}
                   >
-                    <Shield className="icon-xs" />
-                    <span className="logo-text1">
-          identi<span className="logo-accent">fica</span>.ai
-        </span>
+<img
+  src="https://identifyed.ca/assets/identifica-isotipo.png"
+  alt="Identifyed Logo"
+  className="icon-xs"
+/>
+
+<span className="logo-text1">
+  identi<span className="logo-accent">fyed</span>.ca
+</span>
                   </motion.span>
                   <motion.h2 
                     className="carousel-title"
@@ -422,7 +424,24 @@ const IdentifyedApp = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [, setScanResult] = useState('MATCH · 99.7% · ID: K-2840');
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', org: '', phone: '', industry: 'residential', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    email: '', 
+    org: '', 
+    phone: '', 
+    industry: 'residential', 
+    message: '' 
+  });
+
+  // Initialize EmailJS
+  useEffect(() => {
+    // Initialize EmailJS with your public key
+    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual public key
+  }, []);
+
+  const formRef = useRef(null);
 
   const scrollToSection = (e, href) => {
     e.preventDefault();
@@ -455,12 +474,59 @@ const IdentifyedApp = () => {
     return () => clearInterval(interval);
   }, [scanResults]);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate required fields
     if (!formData.name || !formData.email || !formData.email.includes('@')) {
+      setFormError('Please fill in all required fields correctly.');
       return;
     }
-    setFormSubmitted(true);
+
+    setIsSubmitting(true);
+    setFormError('');
+
+    try {
+      // Prepare template parameters for EmailJS
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        organization: formData.org || 'Not provided',
+        phone: formData.phone || 'Not provided',
+        industry: formData.industry,
+        message: formData.message || 'No additional details provided',
+        to_email: 'contact@identifyed.ca', // Your recipient email
+        subject: `New Demo Request from ${formData.name}`,
+      };
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+        templateParams,
+        'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
+      );
+
+      console.log('Email sent successfully:', result.text);
+      setFormSubmitted(true);
+      setFormError('');
+      
+      // Reset form data after successful submission
+      setFormData({ 
+        name: '', 
+        email: '', 
+        org: '', 
+        phone: '', 
+        industry: 'residential', 
+        message: '' 
+      });
+      
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setFormError('Failed to send your request. Please try again or contact us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const navLinks = [
@@ -756,9 +822,9 @@ const IdentifyedApp = () => {
             </motion.div>
           ))}
           <div className="manufacturing-stats">
-          <div><strong style={{ marginRight: "8px" }}>142</strong><span>On Site</span></div>
-<div><strong style={{ marginRight: "8px" }}>12</strong><span>Contractors</span></div>
-<div><strong style={{ marginRight: "8px" }}>0</strong><span>Alerts</span></div>
+            <div><strong style={{ marginRight: "8px" }}>142</strong><span>On Site</span></div>
+            <div><strong style={{ marginRight: "8px" }}>12</strong><span>Contractors</span></div>
+            <div><strong style={{ marginRight: "8px" }}>0</strong><span>Alerts</span></div>
           </div>
         </div>
       )
@@ -803,10 +869,10 @@ const IdentifyedApp = () => {
             </motion.div>
           ))}
           <div className="oilgas-stats">
-          <div><strong>87&nbsp;&nbsp;</strong><span>Personnel On Site</span></div>
-<div><strong>6&nbsp;&nbsp;</strong><span>Vehicles Active</span></div>
-<div><strong>100%&nbsp;&nbsp;</strong><span>Certified</span></div>
-<div><strong>0&nbsp;&nbsp;</strong><span>Incidents</span></div>
+            <div><strong>87&nbsp;&nbsp;</strong><span>Personnel On Site</span></div>
+            <div><strong>6&nbsp;&nbsp;</strong><span>Vehicles Active</span></div>
+            <div><strong>100%&nbsp;&nbsp;</strong><span>Certified</span></div>
+            <div><strong>0&nbsp;&nbsp;</strong><span>Incidents</span></div>
           </div>
         </div>
       )
@@ -815,94 +881,94 @@ const IdentifyedApp = () => {
 
   return (
     <div className="app">
-{/* ===== NAVBAR - FIXED ===== */}
-<header className="navbar" id="navbar">
-  <div className="container">
-    <div className="nav-inner">
-      <a href="/" className="logo">
-        <div className="logo-icon">
-          <img 
-            src="https://identifyed.ca/assets/identifica-isotipo.png" 
-            alt="IDENTIFYED.CA" 
-            className="logo-image"
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-        </div>
-        <span className="logo-text">
-          identi<span className="logo-accent">fyed</span>.ca
-        </span>
-      </a>
-
-      <nav className="nav-links">
-        {navLinks.map(link => (
-          <a 
-            key={link.href} 
-            href={link.href} 
-            className="nav-link"
-            onClick={(e) => scrollToSection(e, link.href)}
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-
-      <div className="nav-cta">
-        <a href="tel:+18253330601" className="btn btn-ghost">
-          Talk to Sales
-        </a>
-        <a href="#contact" className="btn btn-primary" onClick={(e) => scrollToSection(e, '#contact')}>
-          Book a Demo <ChevronRight className="icon-sm" />
-        </a>
-      </div>
-
-      <button 
-        className="mobile-menu-btn"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        aria-label="Toggle menu"
-      >
-        {mobileMenuOpen ? <X className="icon-md" /> : <Menu className="icon-md" />}
-      </button>
-    </div>
-  </div>
-
-  {/* Mobile Menu - Outside container for full width */}
-  <AnimatePresence>
-    {mobileMenuOpen && (
-      <motion.div 
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: 'auto' }}
-        exit={{ opacity: 0, height: 0 }}
-        transition={{ duration: 0.3 }}
-        className="mobile-menu-wrapper"
-      >
+      {/* ===== NAVBAR - FIXED ===== */}
+      <header className="navbar" id="navbar">
         <div className="container">
-          <div className="mobile-menu-inner">
-            {navLinks.map(link => (
-              <a 
-                key={link.href} 
-                href={link.href} 
-                className="mobile-nav-link"
-                onClick={(e) => scrollToSection(e, link.href)}
-              >
-                {link.label}
-              </a>
-            ))}
-            <div className="mobile-cta">
-              <a href="tel:+18253330601" className="btn btn-ghost btn-block">
+          <div className="nav-inner">
+            <a href="/" className="logo">
+              <div className="logo-icon">
+                <img 
+                  src="https://identifyed.ca/assets/identifica-isotipo.png" 
+                  alt="IDENTIFYED.CA" 
+                  className="logo-image"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+              <span className="logo-text">
+                identi<span className="logo-accent">fyed</span>.ca
+              </span>
+            </a>
+
+            <nav className="nav-links">
+              {navLinks.map(link => (
+                <a 
+                  key={link.href} 
+                  href={link.href} 
+                  className="nav-link"
+                  onClick={(e) => scrollToSection(e, link.href)}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="nav-cta">
+              <a href="tel:+18253330601" className="btn btn-ghost">
                 Talk to Sales
               </a>
-              <a href="#contact" className="btn btn-primary btn-block" onClick={(e) => scrollToSection(e, '#contact')}>
+              <a href="#contact" className="btn btn-primary" onClick={(e) => scrollToSection(e, '#contact')}>
                 Book a Demo <ChevronRight className="icon-sm" />
               </a>
             </div>
+
+            <button 
+              className="mobile-menu-btn"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="icon-md" /> : <Menu className="icon-md" />}
+            </button>
           </div>
         </div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</header>
+
+        {/* Mobile Menu - Outside container for full width */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mobile-menu-wrapper"
+            >
+              <div className="container">
+                <div className="mobile-menu-inner">
+                  {navLinks.map(link => (
+                    <a 
+                      key={link.href} 
+                      href={link.href} 
+                      className="mobile-nav-link"
+                      onClick={(e) => scrollToSection(e, link.href)}
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                  <div className="mobile-cta">
+                    <a href="tel:+18253330601" className="btn btn-ghost btn-block">
+                      Talk to Sales
+                    </a>
+                    <a href="#contact" className="btn btn-primary btn-block" onClick={(e) => scrollToSection(e, '#contact')}>
+                      Book a Demo <ChevronRight className="icon-sm" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
 
       {/* ===== HERO CAROUSEL ===== */}
       <section className="hero-carousel-section" id="hero">
@@ -910,110 +976,109 @@ const IdentifyedApp = () => {
       </section>
 
       <section className="hero" id="hero">
-  <div className="hero-bg-pattern"></div>
+        <div className="hero-bg-pattern"></div>
 
+        <div className="container">
+          <div className="hero-grid">
+            {/* Left Content */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={staggerContainer}
+            >
+              <motion.div variants={fadeInUp}>
+                <span className="eyebrow">
+                  <Shield className="icon-xs" />
+                  Biometric Access Control · 100% Proprietary Software
+                </span>
+              </motion.div>
 
-  <div className="container">
-    <div className="hero-grid">
-      {/* Left Content */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={staggerContainer}
-      >
-        <motion.div variants={fadeInUp}>
-          <span className="eyebrow">
-            <Shield className="icon-xs" />
-            Biometric Access Control · 100% Proprietary Software
-          </span>
-        </motion.div>
+              <motion.h1 variants={fadeInUp} className="hero-title">
+                See who's at every door, gate, & dock —{" "}
+                <span className="hero-accent">In Real Time.</span>
+              </motion.h1>
 
-        <motion.h1 variants={fadeInUp} className="hero-title">
-          See who's at every door, gate, & dock —{" "}
-          <span className="hero-accent">In Real Time.</span>
-        </motion.h1>
+              <motion.p variants={fadeInUp} className="hero-desc">
+                <span className="logo-text1">
+                  identi<span className="logo-accent">fyed</span>.ca
+                </span> delivers facial recognition, biometric and non-biometric ID documents: Passports, local IDS,
+                and license plate & container tracking on the hardware you already
+                own. One platform. One price. Fully predictable.
+              </motion.p>
 
-        <motion.p variants={fadeInUp} className="hero-desc">
-        <span className="logo-text1">
-          identi<span className="logo-accent">fyed</span>.ca
-        </span> delivers facial recognition, biometric and non-biometric ID documents: Passports, local IDS,
-          and license plate & container tracking on the hardware you already
-          own. One platform. One price. Fully predictable.
-        </motion.p>
+              <motion.div variants={fadeInUp} className="hero-actions">
+                <a
+                  href="#contact"
+                  className="btn btn-primary"
+                  onClick={(e) => scrollToSection(e, "#contact")}
+                >
+                  Book a Demo <ChevronRight className="icon-sm" />
+                </a>
 
-        <motion.div variants={fadeInUp} className="hero-actions">
-          <a
-            href="#contact"
-            className="btn btn-primary"
-            onClick={(e) => scrollToSection(e, "#contact")}
-          >
-            Book a Demo <ChevronRight className="icon-sm" />
-          </a>
+                <a
+                  href="#industries"
+                  className="btn btn-ghost"
+                  onClick={(e) => scrollToSection(e, "#industries")}
+                >
+                  See it by Industry
+                </a>
+              </motion.div>
+            </motion.div>
 
-          <a
-            href="#industries"
-            className="btn btn-ghost"
-            onClick={(e) => scrollToSection(e, "#industries")}
-          >
-            See it by Industry
-          </a>
-        </motion.div>
-      </motion.div>
-
-      {/* Right Side Image with Scanning Animation */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="hero-image-card"
-      >
-        <div className="scan-container">
-          <img
-            src="https://res.cloudinary.com/dm9gg8yss/image/upload/v1782150950/f1934079-77af-4d72-8ee4-ff9ae84e8e33_bgw4vz.png"
-            alt="Security Monitoring Dashboard"
-            className="hero-image"
-          />
-          
-          {/* Scanning Line */}
-          <div className="scan-line"></div>
-          
-          {/* Scanning Corners */}
-          <div className="scan-corner tl"></div>
-          <div className="scan-corner tr"></div>
-          <div className="scan-corner bl"></div>
-          <div className="scan-corner br"></div>
-          
-          {/* Scanning Grid Overlay */}
-          <div className="scan-grid"></div>
-          
-          {/* Pulsing Dot */}
-          <div className="scan-dot"></div>
-          
-          {/* Scanning Status Text */}
-          <div className="scan-status">
-            <span className="scanning-text">🔍 SCANNING</span>
-            <span className="scan-dots">
-              <span>.</span><span>.</span><span>.</span>
-            </span>
+            {/* Right Side Image with Scanning Animation */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="hero-image-card"
+            >
+              <div className="scan-container">
+                <img
+                  src="https://res.cloudinary.com/dm9gg8yss/image/upload/v1782150950/f1934079-77af-4d72-8ee4-ff9ae84e8e33_bgw4vz.png"
+                  alt="Security Monitoring Dashboard"
+                  className="hero-image"
+                />
+                
+                {/* Scanning Line */}
+                <div className="scan-line"></div>
+                
+                {/* Scanning Corners */}
+                <div className="scan-corner tl"></div>
+                <div className="scan-corner tr"></div>
+                <div className="scan-corner bl"></div>
+                <div className="scan-corner br"></div>
+                
+                {/* Scanning Grid Overlay */}
+                <div className="scan-grid"></div>
+                
+                {/* Pulsing Dot */}
+                <div className="scan-dot"></div>
+                
+                {/* Scanning Status Text */}
+                <div className="scan-status">
+                  <span className="scanning-text">🔍 SCANNING</span>
+                  <span className="scan-dots">
+                    <span>.</span><span>.</span><span>.</span>
+                  </span>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
-      </motion.div>
-    </div>
-  </div>
-</section>
+      </section>
 
-{/* ===== TRUST BAR ===== */}
-<div className="trust-bar">
-  <div className="container">
-    <div className="trust-inner">
-      <span><Shield className="icon-xs" /> PIPEDA &amp; Privacy Aligned</span>
-      <span><FileText className="icon-xs" /> ID Verification · PDF417 / NFC / MRZ</span>
-      <span><Car className="icon-xs" /> ALPR · Plate &amp; Container OCR</span>
-      <span><Database className="icon-xs" /> On-Premise or Cloud Deploy</span>
-      <span><Camera className="icon-xs" /> Any Camera · Hardware Agnostic</span>
-    </div>
-  </div>
-</div>
+      {/* ===== TRUST BAR ===== */}
+      <div className="trust-bar">
+        <div className="container">
+          <div className="trust-inner">
+            <span><Shield className="icon-xs" /> PIPEDA &amp; Privacy Aligned</span>
+            <span><FileText className="icon-xs" /> ID Verification · PDF417 / NFC / MRZ</span>
+            <span><Car className="icon-xs" /> ALPR · Plate &amp; Container OCR</span>
+            <span><Database className="icon-xs" /> On-Premise or Cloud Deploy</span>
+            <span><Camera className="icon-xs" /> Any Camera · Hardware Agnostic</span>
+          </div>
+        </div>
+      </div>
 
       {/* ===== STATS BANNER ===== */}
       <div className="stats-banner">
@@ -1137,9 +1202,9 @@ const IdentifyedApp = () => {
               Everything the camera can read, in one engine.
             </motion.h2>
             <motion.p variants={fadeInUp} className="section-desc mx-auto">
-            <span className="logo-text1">
-          identi<span className="logo-accent">fyed</span>.ca
-        </span> isn't a face module bolted onto someone else's stack. Built by us.
+              <span className="logo-text1">
+                identi<span className="logo-accent">fyed</span>.ca
+              </span> isn't a face module bolted onto someone else's stack. Built by us.
             </motion.p>
           </motion.div>
 
@@ -1184,7 +1249,7 @@ const IdentifyedApp = () => {
             <div className="cap-stat">
               <Zap className="cap-stat-icon" />
               <div>
-              <strong>&gt;100ms</strong>
+                <strong>&gt;100ms</strong>
                 <span>On-Device, Real-Time Verification</span>
               </div>
             </div>
@@ -1206,120 +1271,120 @@ const IdentifyedApp = () => {
         </div>
       </section>
 
-{/* ===== HARDWARE PIPELINE ===== */}
-<section className="section pipeline-section">
-  <div className="container">
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      variants={staggerContainer}
-      className="section-header text-center"
-    >
-      <motion.span variants={fadeInUp} className="eyebrow">
-        Hardware-Agnostic
-      </motion.span>
-      <motion.h2 variants={fadeInUp} className="section-title">
-        No specialized equipment. Use what you already own.
-      </motion.h2>
-      <motion.p variants={fadeInUp} className="section-desc mx-auto">
-        Most sites are already 80% of the way there. We layer software on top of the cameras, doors, and gates you have.
-      </motion.p>
-    </motion.div>
+      {/* ===== HARDWARE PIPELINE ===== */}
+      <section className="section pipeline-section">
+        <div className="container">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="section-header text-center"
+          >
+            <motion.span variants={fadeInUp} className="eyebrow">
+              Hardware-Agnostic
+            </motion.span>
+            <motion.h2 variants={fadeInUp} className="section-title">
+              No specialized equipment. Use what you already own.
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="section-desc mx-auto">
+              Most sites are already 80% of the way there. We layer software on top of the cameras, doors, and gates you have.
+            </motion.p>
+          </motion.div>
 
-    <div className="pipeline-grid">
-      <motion.div 
-        className="pipeline-col"
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1 }}
-      >
-<div className="pipeline-icon hardware-icon">
-  <Camera size={34} />
-</div>
-<div className="pipeline-label">YOUR HARDWARE</div>
-        <div className="pipeline-items">
-        <div className="pipeline-item">
-  <ScanSearch className="pipeline-icon green" />
-  USB / IP Webcam <em>Face Recognition</em>
-</div>
+          <div className="pipeline-grid">
+            <motion.div 
+              className="pipeline-col"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              <div className="pipeline-icon hardware-icon">
+                <Camera size={34} />
+              </div>
+              <div className="pipeline-label">YOUR HARDWARE</div>
+              <div className="pipeline-items">
+                <div className="pipeline-item">
+                  <ScanSearch className="pipeline-icon green" />
+                  USB / IP Webcam <em>Face Recognition</em>
+                </div>
 
-<div className="pipeline-item">
-  <Radar className="pipeline-icon blue" />
-  Recording Camera <em>License Plate Recognition</em>
-</div>
+                <div className="pipeline-item">
+                  <Radar className="pipeline-icon blue" />
+                  Recording Camera <em>License Plate Recognition</em>
+                </div>
 
-<div className="pipeline-item">
-  <Container className="pipeline-icon cyan" />
-  Recording Camera <em>Container Tracking</em>
-</div>
+                <div className="pipeline-item">
+                  <Container className="pipeline-icon cyan" />
+                  Recording Camera <em>Container Tracking</em>
+                </div>
 
-<div className="pipeline-item">
-  <ShieldCheck className="pipeline-icon purple" />
-  ID Scanner <em>PDF417 / NFC Verification</em>
-</div>
+                <div className="pipeline-item">
+                  <ShieldCheck className="pipeline-icon purple" />
+                  ID Scanner <em>PDF417 / NFC Verification</em>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              className="pipeline-engine"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <div className="pipeline-icon engine-icon">
+                <Cpu size={34} />
+              </div>
+              <div className="pipeline-label">IDENTIFYED ENGINE</div>
+              <div className="engine-items">
+                {['FACE · 1:1 / 1:N', 'ALPR · Plate', 'ISO 6346 · Container', 'PDF417 · NFC · MRZ'].map((item, i) => (
+                  <div key={i} className="engine-item">{item}</div>
+                ))}
+                <div className="engine-foot">
+                  <LayoutDashboard className="engine-foot-icon" />
+                  <span>Central Console</span>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="pipeline-col"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <div className="pipeline-icon control-icon-main">
+                <ShieldCheck size={34} />
+              </div>
+              <div className="pipeline-label">YOUR CONTROLS</div>
+
+              <div className="pipeline-items">
+                <div className="pipeline-item">
+                  <DoorOpen className="control-icon orange" />
+                  Turnstiles
+                </div>
+
+                <div className="pipeline-item">
+                  <ShieldCheck className="control-icon orange" />
+                  Doors / Strikes / Mag Locks
+                </div>
+
+                <div className="pipeline-item">
+                  <Fence className="control-icon orange" />
+                  Vehicle Barriers · Gates
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          <p className="pipeline-footnote">
+            Speaks <strong>OSDP</strong> · <strong>RELAY</strong> · <strong>REST APIs</strong> · <strong>RTSP</strong> — works with what you have, talks to what you add.
+          </p>
         </div>
-      </motion.div>
-
-      <motion.div 
-        className="pipeline-engine"
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-      >
-<div className="pipeline-icon engine-icon">
-  <Cpu size={34} />
-</div>
-<div className="pipeline-label">IDENTIFYED ENGINE</div>
-        <div className="engine-items">
-          {['FACE · 1:1 / 1:N', 'ALPR · Plate', 'ISO 6346 · Container', 'PDF417 · NFC · MRZ'].map((item, i) => (
-            <div key={i} className="engine-item">{item}</div>
-          ))}
-<div className="engine-foot">
-  <LayoutDashboard className="engine-foot-icon" />
-  <span>Central Console</span>
-</div>
-        </div>
-      </motion.div>
-
-      <motion.div
-  className="pipeline-col"
-  initial={{ opacity: 0, x: 30 }}
-  whileInView={{ opacity: 1, x: 0 }}
-  viewport={{ once: true }}
-  transition={{ delay: 0.3 }}
->
-<div className="pipeline-icon control-icon-main">
-  <ShieldCheck size={34} />
-</div>
-<div className="pipeline-label">YOUR CONTROLS</div>
-
-  <div className="pipeline-items">
-    <div className="pipeline-item">
-      <DoorOpen className="control-icon orange" />
-      Turnstiles
-    </div>
-
-    <div className="pipeline-item">
-      <ShieldCheck className="control-icon orange" />
-      Doors / Strikes / Mag Locks
-    </div>
-
-    <div className="pipeline-item">
-      <Fence className="control-icon orange" />
-      Vehicle Barriers · Gates
-    </div>
-  </div>
-</motion.div>
-    </div>
-
-    <p className="pipeline-footnote">
-      Speaks <strong>OSDP</strong> · <strong>RELAY</strong> · <strong>REST APIs</strong> · <strong>RTSP</strong> — works with what you have, talks to what you add.
-    </p>
-  </div>
-</section>
+      </section>
 
       {/* ===== WHY BIOMETRICS ===== */}
       <section id="why" className="section why-section">
@@ -1379,9 +1444,9 @@ const IdentifyedApp = () => {
             >
               <div className="compare-icon"><CheckCircle className="icon-lg text-green-500" /></div>
               <h3 className="compare-title">
-                        <span className="logo-text1">
-          identi<span className="logo-accent">fyed</span>.ca
-        </span> Biometrics
+                <span className="logo-text1">
+                  identi<span className="logo-accent">fyed</span>.ca
+                </span> Biometrics
                 <span className="compare-badge modern">Modern</span>
               </h3>
               <p className="compare-sub">The credential is the person.</p>
@@ -1547,12 +1612,12 @@ const IdentifyedApp = () => {
               </motion.p>
               <motion.ul variants={staggerContainer} className="privacy-list">
                 {[
-  'Aligned with PIPEDA',
-  'Biometric verification occurs within the app and is never sent elsewhere',
-  'Data residency on Canadian infrastructure — or on your own premises',
-  'Face templates stored as one-way embeddings, never raw photos',
-  'Full audit trail; right-to-erasure tooling included'
-].map((item, i) => (
+                  'Aligned with PIPEDA',
+                  'Biometric verification occurs within the app and is never sent elsewhere',
+                  'Data residency on Canadian infrastructure — or on your own premises',
+                  'Face templates stored as one-way embeddings, never raw photos',
+                  'Full audit trail; right-to-erasure tooling included'
+                ].map((item, i) => (
                   <motion.li key={i} variants={fadeInUp} className="privacy-item">
                     <CheckCircle className="icon-sm text-green" />
                     {item}
@@ -1578,9 +1643,9 @@ const IdentifyedApp = () => {
                 </span>
               </div>
               <p className="parent-desc">
-                        <span className="logo-text1">
-          identi<span className="logo-accent">fyed</span>.ca
-        </span> is the Canadian operation of identi<span className="logo-accent">fica</span>.ai — a Chilean biometrics group with a decade of port, retail, and public-sector deployments across Latin America. We bring that engine north, with Canadian-resident infrastructure and support.
+                <span className="logo-text1">
+                  identi<span className="logo-accent">fyed</span>.ca
+                </span> is the Canadian operation of identi<span className="logo-accent">fica</span>.ai — a Chilean biometrics group with a decade of port, retail, and public-sector deployments across Latin America. We bring that engine north, with Canadian-resident infrastructure and support.
               </p>
               <div className="parent-meta">
                 <div><strong>10+ YRS</strong>Biometrics R&amp;D</div>
@@ -1612,29 +1677,29 @@ const IdentifyedApp = () => {
               </motion.p>
 
               <motion.div variants={staggerContainer} className="contact-channels">
-              <motion.div variants={fadeInUp} className="contact-channel">
-  <Phone className="channel-icon" />
-  <div>
-    <div className="channel-label">Sales</div>
-    <div className="channel-name">Sales Team</div>
-    <div className="channel-links">
-      <a href="tel:+18253330601">+1 (825) 333 0601</a>
-      <a href="mailto:contact@identifyed.ca">contact@identifyed.ca</a>
-    </div>
-  </div>
-</motion.div>
+                <motion.div variants={fadeInUp} className="contact-channel">
+                  <Phone className="channel-icon" />
+                  <div>
+                    <div className="channel-label">Sales</div>
+                    <div className="channel-name">Sales Team</div>
+                    <div className="channel-links">
+                      <a href="tel:+18253330601">+1 (825) 333 0601</a>
+                      <a href="mailto:contact@identifyed.ca">contact@identifyed.ca</a>
+                    </div>
+                  </div>
+                </motion.div>
 
-<motion.div variants={fadeInUp} className="contact-channel">
-  <ShieldCheck className="channel-icon" />
-  <div>
-    <div className="channel-label">Support · Live Deployments</div>
-    <div className="channel-name">24 / 7 Incident Line</div>
-    <div className="channel-links">
-      <a href="tel:+17808517424">+1 (780) 851 7424</a>
-      <a href="mailto:support@identifyed.ca">support@identifyed.ca</a>
-    </div>
-  </div>
-</motion.div>
+                <motion.div variants={fadeInUp} className="contact-channel">
+                  <ShieldCheck className="channel-icon" />
+                  <div>
+                    <div className="channel-label">Support · Live Deployments</div>
+                    <div className="channel-name">24 / 7 Incident Line</div>
+                    <div className="channel-links">
+                      <a href="tel:+17808517424">+1 (780) 851 7424</a>
+                      <a href="mailto:support@identifyed.ca">support@identifyed.ca</a>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
             </motion.div>
 
@@ -1646,9 +1711,16 @@ const IdentifyedApp = () => {
               transition={{ delay: 0.2 }}
             >
               {!formSubmitted ? (
-                <form onSubmit={handleFormSubmit}>
+                <form ref={formRef} onSubmit={handleFormSubmit}>
                   <h3 className="form-title">Book a Demo</h3>
                   <p className="form-sub">Tell us a little about the site. We'll come back within one business day.</p>
+
+                  {formError && (
+                    <div className="form-error">
+                      <XCircle className="icon-sm" />
+                      <span>{formError}</span>
+                    </div>
+                  )}
 
                   <div className="form-row-2">
                     <div className="form-group">
@@ -1659,6 +1731,7 @@ const IdentifyedApp = () => {
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="Jane Tremblay"
                         required
+                        disabled={isSubmitting}
                       />
                     </div>
                     <div className="form-group">
@@ -1668,6 +1741,7 @@ const IdentifyedApp = () => {
                         value={formData.org}
                         onChange={(e) => setFormData({ ...formData, org: e.target.value })}
                         placeholder="Acme Property Group"
+                        disabled={isSubmitting}
                       />
                     </div>
                   </div>
@@ -1681,6 +1755,7 @@ const IdentifyedApp = () => {
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="jane@acme.ca"
                         required
+                        disabled={isSubmitting}
                       />
                     </div>
                     <div className="form-group">
@@ -1690,6 +1765,7 @@ const IdentifyedApp = () => {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="+1 ___ ___ ____"
+                        disabled={isSubmitting}
                       />
                     </div>
                   </div>
@@ -1699,6 +1775,7 @@ const IdentifyedApp = () => {
                     <select
                       value={formData.industry}
                       onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
+                      disabled={isSubmitting}
                     >
                       <option value="residential">Residential / Condominiums</option>
                       <option value="office">Office / Commercial</option>
@@ -1717,13 +1794,18 @@ const IdentifyedApp = () => {
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       rows="3"
                       placeholder="e.g. 4 entry points across two condo buildings — currently using fobs."
+                      disabled={isSubmitting}
                     />
                   </div>
 
                   <div className="form-submit">
                     <span className="form-legal">By submitting you agree to our privacy notice.</span>
-                    <button type="submit" className="btn btn-primary">
-                      Send Request <ChevronRight className="icon-sm" />
+                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                      {isSubmitting ? (
+                        <>Sending...</>
+                      ) : (
+                        <>Send Request <ChevronRight className="icon-sm" /></>
+                      )}
                     </button>
                   </div>
                 </form>
@@ -1747,13 +1829,13 @@ const IdentifyedApp = () => {
           <div className="footer-grid">
             <div>
               <div className="logo">
-              <div className="logo-icon">
-  <img 
-    src="https://identifyed.ca/assets/identifica-isotipo.png" 
-    alt="IDENTIFYED.CA LOGO" 
-    className="logo-image"
-  />
-</div>
+                <div className="logo-icon">
+                  <img 
+                    src="https://identifyed.ca/assets/identifica-isotipo.png" 
+                    alt="IDENTIFYED.CA LOGO" 
+                    className="logo-image"
+                  />
+                </div>
                 <span className="logo-text">
                   identi<span className="logo-accent">fyed</span>.ca
                 </span>
@@ -1792,9 +1874,9 @@ const IdentifyedApp = () => {
           </div>
 
           <div className="footer-bottom">
-            <span>© 2026         <span className="logo-text1">
-          identi<span className="logo-accent">fyed</span>.ca
-        </span> · All Rights Reserved</span>
+            <span>© 2026 <span className="logo-text1">
+              identi<span className="logo-accent">fyed</span>.ca
+            </span> · All Rights Reserved</span>
             <div className="footer-powered">
               <span>Powered by</span>
               <span className="powered-name">NEWSTACK</span>
@@ -1805,4 +1887,5 @@ const IdentifyedApp = () => {
     </div>
   );
 };
+
 export default IdentifyedApp;
