@@ -31,7 +31,7 @@ import {
   Container,  
   DoorOpen,
   Fence,
-
+  LayoutDashboard,
 } from 'lucide-react';
 import './App.css';
 
@@ -1277,7 +1277,10 @@ const IdentifyedApp = () => {
           {['FACE · 1:1 / 1:N', 'ALPR · Plate', 'ISO 6346 · Container', 'PDF417 · NFC · MRZ'].map((item, i) => (
             <div key={i} className="engine-item">{item}</div>
           ))}
-          <div className="engine-foot">🎯 Central Console</div>
+<div className="engine-foot">
+  <LayoutDashboard className="engine-foot-icon" />
+  <span>Central Console</span>
+</div>
         </div>
       </motion.div>
 

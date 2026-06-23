@@ -4705,3 +4705,24 @@ font-weight: 900;
   object-fit: contain;
   flex-shrink: 0;
 }
+
+.engine-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  color: #fff;
+}
+
+.engine-foot-icon {
+  width: 28px;
+  height: 28px;
+
+  color: #06b6d4;
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
+}
